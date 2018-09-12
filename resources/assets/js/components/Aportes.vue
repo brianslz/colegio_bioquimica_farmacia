@@ -142,7 +142,7 @@
                                     <div class="col-md-offset-2 col-md-9">
                                     <p><strong>Modalidad de Pago: </strong> {{ modalidad }}  &nbsp; <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}</p>
                                     <p> <strong>Pago hasta: </strong>{{ desde(fecha_ultimo_pago) }}
-
+                                    <br><br>
                                         <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
                                             <i class="icon-user"></i> Sin Deudas
                                         </button>
@@ -154,6 +154,11 @@
                                         <button v-if="!actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-danger btn-sm">
                                             <i class="icon-user"></i> Deudor
                                         </button>
+                                    <br><br>
+                                        <template v-if="calcularDeuda(fecha_ultimo_pago)>2">
+                                           <strong>Debe: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses 
+                                        </template>
+
                                     </p>
                                     </div>
                                 </div>
@@ -528,7 +533,14 @@ import VTooltip from 'v-tooltip';
                 var r2 = moment([ moment().year(),2,31]).format("YYYY-MM-DD");
                 return moment().isBetween(r1,r2);
             },
+            calcularDeuda(date){
+                // siempre a >b
+                var a = moment();
+                var b = moment(date);
+                
+                return ( a.diff(b, 'months')+1 );
 
+            },
             pagarGestion(){
                 this.promo = true;
                 this.num_meses = 12;
