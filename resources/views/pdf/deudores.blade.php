@@ -14,7 +14,7 @@
         }
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: 60%;
         }
 
         th, td {
@@ -29,7 +29,6 @@
             color: white;
         }
     </style>
-    
 </head>
 <body>
     <div>

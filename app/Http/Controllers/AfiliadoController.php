@@ -14,25 +14,14 @@ class AfiliadoController extends Controller
     public function index(Request $request)
     {
 
-        //if (!$request->ajax()) return redirect('/');
+        if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         $criterio = $request->criterio;
         if ($buscar==''){
             $afiliados = Afiliado::orderBy('id', 'desc')->paginate(10);
-            //$afiliados = User::join('afiliados','users.id','=','afiliados.id')
-            //->join('roles','users.idrol','=','roles.id')
-            //->select('afiliados.*','users.usuario','users.password',
-            //'users.idrol','roles.nombre as rol')
-            //->orderBy('afiliados.id', 'desc')->paginate(3);
         }
         else{
             $afiliados = Afiliado::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(10);
-            //$afiliados = User::join('afiliados','users.id','=','afiliados.id')
-            //->join('roles','users.idrol','=','roles.id')
-            //->select('afiliados.*','users.usuario','users.password',
-            //'users.idrol','roles.nombre as rol')
-            //->where('afiliados.'.$criterio, 'like', '%'. $buscar . '%')
-            //->orderBy('afiliados.id', 'desc')->paginate(3);
         }
         return [
             'pagination' => [
@@ -47,10 +36,124 @@ class AfiliadoController extends Controller
         ];
     }
 
+
+    public function store(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        try{
+            DB::beginTransaction();
+            
+            $afiliado = new Afiliado();
+            $afiliado->apellido_paterno=$request->apellido_paterno;
+            $afiliado->apellido_materno=$request->apellido_materno;
+            $afiliado->nombres=$request->nombres;
+            $afiliado->fecha_nac=$request->fecha_nac;
+            $afiliado->lugar_nac=$request->lugar_nac;
+            $afiliado->ci=$request->ci;
+            $afiliado->departamento=$request->departamento;
+            $afiliado->nacionalidad=$request->nacionalidad;
+            $afiliado->estado_civil=$request->estado_civil;
+            $afiliado->telefono=$request->telefono;
+            $afiliado->celular=$request->celular;
+            $afiliado->email=$request->email;
+
+            $afiliado->fecha_min_salud=$request->fecha_min_salud;
+            $afiliado->matricula=$request->matricula;
+            $afiliado->lugar_trabajo=$request->lugar_trabajo;
+            $afiliado->direccion_trabajo=$request->direccion_trabajo;
+
+            $afiliado->modalidad=$request->modalidad;
+            $afiliado->fecha_modalidad=$request->fecha_modalidad;
+            $afiliado->created_at=$request->created_at;
+            $afiliado->observaciones=$request->observaciones;
+            $afiliado->codigounico=$request->codigounico;
+            $afiliado->condicion=1; 
+            $afiliado->estado="Activo";
+            $afiliado->save();
+
+            $user = new User();
+            $user->usuario = $request->usuario;
+            $user->password = bcrypt( $request->password);
+            $user->condicion = '1';
+            $user->idrol = $request->idrol;          
+            $user->id = $afiliado->id;
+            $user->save();
+
+            DB::commit();
+
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+    }
+
+
+    public function update(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+            //Buscar primero el proveedor a modificar
+            $afiliado = Afiliado::findOrFail($request->id);
+            //datos personales
+            $afiliado->apellido_paterno=$request->apellido_paterno;
+            $afiliado->apellido_materno=$request->apellido_materno;
+            $afiliado->nombres=$request->nombres;
+            $afiliado->fecha_nac=$request->fecha_nac;
+            $afiliado->lugar_nac=$request->lugar_nac;
+            $afiliado->ci=$request->ci;
+            $afiliado->departamento=$request->departamento;
+            $afiliado->nacionalidad=$request->nacionalidad;
+            $afiliado->estado_civil=$request->estado_civil;
+            $afiliado->telefono=$request->telefono;
+            $afiliado->celular=$request->celular;
+            $afiliado->email=$request->email;
+
+            $afiliado->fecha_min_salud=$request->fecha_min_salud;
+            $afiliado->matricula=$request->matricula;
+            $afiliado->lugar_trabajo=$request->lugar_trabajo;
+            $afiliado->direccion_trabajo=$request->direccion_trabajo;
+
+            $afiliado->modalidad=$request->modalidad;
+            $afiliado->fecha_modalidad=$request->fecha_modalidad;
+            $afiliado->created_at=$request->created_at;
+            $afiliado->observaciones=$request->observaciones;
+            $afiliado->codigounico=$request->codigounico;
+            $afiliado->condicion=1; 
+            $afiliado->estado="Activo";
+            $afiliado->save();
+
+            $user = User::findOrFail($request->id);
+            $user->usuario = $request->codigounico;
+            $user->password = bcrypt( $request->ci);
+            $user->condicion = '1';
+            $user->idrol = $request->idrol;
+            //return $user;
+            $user->save();
+    }
+
+    public function deshabilitar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $afiliado = Afiliado::findOrFail($request->id);
+        $afiliado->estado = $request->motivo;
+        $afiliado->fecha_modalidad = $request->fecha_motivo;
+        $afiliado->condicion = '0';
+        $afiliado->save();
+    }
+
+    public function habilitar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $afiliado = Afiliado::findOrFail($request->id);
+        $afiliado->estado = 'Activo';
+        $afiliado->modalidad = $request->motivo;
+        $afiliado->fecha_modalidad = $request->fecha_motivo;
+        $afiliado->condicion = '1';
+        $afiliado->save();
+    }
+
     public function afiliadoAporte(Request $request)
     {
-        //listamos los afiliados activos
-        //if (!$request->ajax()) return redirect('/');
+        if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         $criterio = $request->criterio;        
         if ($buscar==''){
@@ -77,15 +180,15 @@ class AfiliadoController extends Controller
         ];
     }
 
-    public function ultimoPago(Request $request)
-    {
+    public function ultimoPago(Request $request){
+        if (!$request->ajax()) return redirect('/');
         $pago = Pago::where('idafiliado','=', $request->id)
         ->select('idafiliado','fecha_vencimiento')->orderBy('fecha_vencimiento', 'desc')->first();
         return ['pago' => $pago];
     }
     
-    public function verificarCi(Request $request)
-    {
+    public function verificarCi(Request $request){
+        if (!$request->ajax()) return redirect('/');
         $afiliado = Afiliado::where('ci','=', $request->ci)
         ->select('id','nombres')->get();
         return ['afiliado' => $afiliado];
@@ -93,7 +196,7 @@ class AfiliadoController extends Controller
     
     
     public function perfil(Request $request){
-        //if (!$request->ajax()) return redirect('/');
+        if (!$request->ajax()) return redirect('/');
         $titulos = DB::table('titulos as t')
         ->where('t.idafiliado', '=', $request->id)
         ->get();
@@ -121,7 +224,13 @@ class AfiliadoController extends Controller
         return $pdf->download('perfil.pdf');
     }
 
+    public function getRol(Request $request){
+        $rol = User::find($request->id);
+        return $rol->idrol;
+    }
+
     public function reporteAfiliadosGestion(Request $request){
+
         $afiliados = Afiliado::whereYear('fecha_modalidad', $request->gestion)
         ->where('condicion','=',1)
         ->get();
@@ -185,10 +294,13 @@ class AfiliadoController extends Controller
     }
 
     public function antiguedad25(Request $request){
-        $gestion = $request->gestion - 25 ;
-        $afiliados = Afiliado::whereYear('fecha_modalidad', $gestion)
-        ->where('condicion','=',1)
+
+        $gestion = $request->gestion ;
+        $afiliados = Afiliado::whereYear('fecha_modalidad', 2015)
+        //->where('condicion','=',1)
         ->get();
+
+        dd($afiliados,$gestion);
 
         $cantNuevos = Afiliado::whereYear('fecha_modalidad', $gestion)
         ->where('condicion','=',1)
@@ -224,124 +336,4 @@ class AfiliadoController extends Controller
         return $pdf->download('Afiliados_Gestion.pdf');
     }
  
-    public function store(Request $request)
-    {
-        //if (!$request->ajax()) return redirect('/');
-        try{
-            DB::beginTransaction();
-            
-            $afiliado = new Afiliado();
-            $afiliado->apellido_paterno=$request->apellido_paterno;
-            $afiliado->apellido_materno=$request->apellido_materno;
-            $afiliado->nombres=$request->nombres;
-            $afiliado->fecha_nac=$request->fecha_nac;
-            $afiliado->lugar_nac=$request->lugar_nac;
-            $afiliado->ci=$request->ci;
-            $afiliado->departamento=$request->departamento;
-            $afiliado->nacionalidad=$request->nacionalidad;
-            $afiliado->estado_civil=$request->estado_civil;
-            $afiliado->telefono=$request->telefono;
-            $afiliado->celular=$request->celular;
-            $afiliado->email=$request->email;
-
-            $afiliado->fecha_min_salud=$request->fecha_min_salud;
-            $afiliado->matricula=$request->matricula;
-            $afiliado->lugar_trabajo=$request->lugar_trabajo;
-            $afiliado->direccion_trabajo=$request->direccion_trabajo;
-
-            $afiliado->modalidad=$request->modalidad;
-            $afiliado->fecha_modalidad=$request->fecha_modalidad;
-            
-            $afiliado->codigounico=$request->codigounico;
-            $afiliado->condicion=1; 
-            $afiliado->estado="Activo";
-            $afiliado->save();
-
-            $user = new User();
-            $user->usuario = $request->usuario;
-            $user->password = bcrypt( $request->password);
-            $user->condicion = '1';
-            $user->idrol = $request->idrol;          
-            $user->id = $afiliado->id;
-            $user->save();
-
-            DB::commit();
-
-        } catch (Exception $e){
-            DB::rollBack();
-        }
-    }
-
-
-    public function update(Request $request)
-    {
-        //if (!$request->ajax()) return redirect('/');
-
-        try{
-            DB::beginTransaction();
-
-            //Buscar primero el proveedor a modificar
-            $user = User::findOrFail($request->id);
-
-            $afiliado = Afiliado::findOrFail($request->id);
-            //datos personales
-            $afiliado->apellido_paterno=$request->apellido_paterno;
-            $afiliado->apellido_materno=$request->apellido_materno;
-            $afiliado->nombres=$request->nombres;
-            $afiliado->fecha_nac=$request->fecha_nac;
-            $afiliado->lugar_nac=$request->lugar_nac;
-            $afiliado->ci=$request->ci;
-            $afiliado->departamento=$request->departamento;
-            $afiliado->nacionalidad=$request->nacionalidad;
-            $afiliado->estado_civil=$request->estado_civil;
-            $afiliado->telefono=$request->telefono;
-            $afiliado->celular=$request->celular;
-            $afiliado->email=$request->email;
-
-            //datos academicos
-            $afiliado->fecha_min_salud=$request->fecha_min_salud;
-            $afiliado->matricula=$request->matricula;
-            $afiliado->lugar_trabajo=$request->lugar_trabajo;
-            $afiliado->direccion_trabajo=$request->direccion_trabajo;
-            $afiliado->modalidad=$request->modalidad;
-            $afiliado->fecha_modalidad=$request->fecha_modalidad;
-            $afiliado->codigounico=$request->codigounico;
-            $afiliado->save();
-            
-            $user->usuario = $request->usuario;
-            $user->password = bcrypt( $request->password);
-            $user->condicion = '1';
-            $user->idrol = $request->idrol;
-            $user->save();
-
-            DB::commit();
-
-        } catch (Exception $e){
-            DB::rollBack();
-        }
-
-
-
-    }
-
-    public function deshabilitar(Request $request)
-    {
-        //if (!$request->ajax()) return redirect('/');
-        $afiliado = Afiliado::findOrFail($request->id);
-        $afiliado->estado = $request->motivo;
-        $afiliado->fecha_modalidad = $request->fecha_motivo;
-        $afiliado->condicion = '0';
-        $afiliado->save();
-    }
-
-    public function habilitar(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
-        $afiliado = Afiliado::findOrFail($request->id);
-        $afiliado->estado = 'Activo';
-        $afiliado->modalidad = $request->motivo;
-        $afiliado->fecha_modalidad = $request->fecha_motivo;
-        $afiliado->condicion = '1';
-        $afiliado->save();
-    }
 }

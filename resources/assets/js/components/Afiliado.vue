@@ -28,7 +28,8 @@
                                             <option value="nombres">Nombres</option>
                                         </select>
                                         <input type="text" v-model="buscar" @keyup.enter="listarAfiliado(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                        <button type="submit" @click="listarAfiliado(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                        <button type="submit" @click="listarAfiliado(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button> 
+                                        <button type="submit" @click="listarAfiliado(1,'','ci')" class="btn btn-default"><i class="fa fa-close"></i></button> 
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +68,7 @@
                                                 <i class="icon-graduation"></i>
                                             </button>
                                             <button type="button"  @click="mostrarFormularioModificar(afiliado)" v-tooltip.bottom="'Editar'" class="btn btn-warning btn-sm">
-                                            <i class="icon-pencil"></i>
+                                                <i class="icon-pencil"></i>
                                             </button> 
                                             <template v-if="afiliado.condicion==0">
                                                 <button type="button" class="btn btn-success btn-sm" v-tooltip.bottom="'Habilitar'" @click="modificarEstado(afiliado,4)">
@@ -81,7 +82,7 @@
                                             </template>
                                             <button type="button" @click="mostrarPerfil(afiliado)" v-tooltip.bottom="'Perfil de Afiliado'" class="btn btn-secondary btn-sm">
                                                 <i class="icon-user"></i>
-                                            </button> 
+                                            </button>
                                         </td>
                                     </tr>                                
                                 </tbody>
@@ -117,29 +118,30 @@
                     <!--Formulario, anñadir Mod de afiliados-->
                     <template v-if="listado==0">
                         <div class="card-body">
+                            <h5>Datos Personales</h5>
                             <div class="form-group row border">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Paterno(*)</label>
+                                        <label for="">Paterno</label>
                                         <input type="text" class="form-control" v-model="apellido_paterno">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Materno(*)</label>
+                                        <label for="">Materno</label>
                                         <input type="text" class="form-control" v-model="apellido_materno">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Nombres(*)</label>
+                                        <label for="">Nombres</label>
                                         <input type="text" class="form-control" v-model="nombres">
                                     </div>
                                 </div>
                                 <!--nueva linea-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="">Fecha de Nacimiento(*)</label>
+                                        <label for="">Fecha de Nacimiento</label>
                                         <input type="date" class="form-control" v-model="fecha_nac">
                                     </div>
                                 </div>
@@ -152,7 +154,7 @@
                                 <!--nueva linea-->
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="">CI (*)</label>
+                                        <label for="">Cedula de Identidad </label>
                                         <input type="text" class="form-control" v-model="ci">
                                     </div>
                                 </div>
@@ -216,6 +218,7 @@
                                 </div>
                                 <!--nueva linea-->
                             </div>
+                            <h5>Datos Profesionales</h5>
                             <div class="form-group row border">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -245,7 +248,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <h5>Datos de Afiliación</h5>
                             <div class="form-group row border">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -260,14 +263,20 @@
                                     <div class="form-group">
                                         <label for="">Fecha de Inicio de Pago</label>
                                         <input type="date" class="form-control" v-model="fecha_modalidad">
-                                        <small>Fecha de Inicio de los pagos de aportes</small>
+                                        <small>Ingresar Fecha de Titulo </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Fecha de Ingreso</label>
+                                        <input type="date" class="form-control" v-model="created_at">
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Carnet Colegio</label>
-                                        <div class="input-group">
+                                        <div class="input-group" v-if="tipoAccion==1">
                                             <select class="form-control" v-model="codigounico">
                                                 <option value="LP-">LP</option>
                                                 <option value="OR-">OR</option>
@@ -279,13 +288,20 @@
                                                 <option value="TJ-">TJ</option>
                                                 <option value="CH-">CH</option>
                                             </select>
-                                            <input type="text" class="form-control" v-model="codigounico" >
-                                        </div>
+                                            </div>
+                                            <input type="text" class="form-control" v-model="codigounico">
                                         <small>Numero de Carnet de Afiliado Colegio de Biquimica y Farmacia</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="">Observaciones </label>
+                                        <input type="text" class="form-control" v-model="observaciones">
                                     </div>
                                 </div>
                             </div>
                             <!--formulario USER para su respectivo Login-->
+                            <h5>Acceso al Sistema</h5>
                             <div class="form-group row border">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -454,8 +470,9 @@ import VTooltip from 'v-tooltip';
                 direccion_trabajo:'',
                 modalidad:'',
                 fecha_modalidad:'',
+                created_at:'',
+                observaciones:'',
                 codigounico:'',
-
                 fecha_ultimo_pago:'',
                 motivo:'',
                 fecha_motivo:'',
@@ -516,6 +533,8 @@ import VTooltip from 'v-tooltip';
         },
         methods : {
             listarAfiliado (page,buscar,criterio){
+                this.buscar=buscar;
+                this.criterio=criterio;
                 let me=this;
                 var url= '/afiliado?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
@@ -567,6 +586,8 @@ import VTooltip from 'v-tooltip';
                     'direccion_trabajo':this.direccion_trabajo,
                     'modalidad':this.modalidad,
                     'fecha_modalidad':this.fecha_modalidad,
+                    'created_at':this.created_at,
+                    'observaciones':this.observaciones,
                     'codigounico':this.codigounico,
 
                     'usuario': this.usuario,
@@ -585,8 +606,9 @@ import VTooltip from 'v-tooltip';
                     return;
                 }
                 let me = this;
+                
                 axios.put('/afiliado/actualizar',{
-                    'id': this.afiliado_id,
+                    'id':this.afiliado_id,
                     'apellido_paterno':this.apellido_paterno,
                     'apellido_materno':this.apellido_materno,
                     'nombres':this.nombres,
@@ -599,19 +621,19 @@ import VTooltip from 'v-tooltip';
                     'telefono':this.telefono,
                     'celular':this.celular,
                     'email':this.email,
-
                     'fecha_min_salud':this.fecha_min_salud,
                     'matricula':this.matricula,
                     'lugar_trabajo':this.lugar_trabajo,
                     'direccion_trabajo':this.direccion_trabajo,
                     'modalidad':this.modalidad,
                     'fecha_modalidad':this.fecha_modalidad,
+                    'created_at':this.created_at,
+                    'observaciones':this.observaciones,
                     'codigounico':this.codigounico,
 
-                    'usuario': this.usuario,
-                    'password': this.password,
+                    'usuario': this.codigounico,
+                    'password': this.ci,
                     'idrol' : this.idrol
-
                 }).then(function (response) {
                     me.ocultarFormulario();
                     me.listarAfiliado(1,'','nombres');
@@ -635,7 +657,9 @@ import VTooltip from 'v-tooltip';
                 this.ci=data["ci"],
                 this.codigounico=data["codigounico"],
                 this.modalidad=data["modalidad"],
-                this.fecha_modalidad=data["fecha_modalidad"],         
+                this.fecha_modalidad=data["fecha_modalidad"],
+                this.created_at=data["created_at"],
+                this.observaciones = data["observaciones"]
                 //fecha_ultimo_pago  se carga con funcion
                 this.cargarUltimoPago(this.afiliado_id);
             },
@@ -706,6 +730,7 @@ import VTooltip from 'v-tooltip';
                 if(!this.direccion_trabajo) this.errorMostrarMsjAfiliado.push('La Dirección de Trabajo no puede estar Vació');
                 if(!this.modalidad) this.errorMostrarMsjAfiliado.push('El Campo Modalidad de Pago no puede estar Vació');
                 if(!this.fecha_modalidad) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
+                if(!this.created_at) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
                 if(!this.codigounico) this.errorMostrarMsjAfiliado.push('Introducior el Carnet Colegio');
                 if (this.errorMostrarMsjAfiliado.length) this.errorAfiliado = 1;
                 return this.errorAfiliado;
@@ -742,6 +767,8 @@ import VTooltip from 'v-tooltip';
                 this.direccion_trabajo='';
                 this.modalidad='';
                 this.fecha_modalidad='';
+                this.created_at='';
+                this.observaciones='';
                 this.codigounico='';
 
                 this.usuario='';
@@ -765,7 +792,6 @@ import VTooltip from 'v-tooltip';
                 //this.tituloModal='Actualizar afiliado ';
                 this.listado=0;
                 this.tipoAccion=2;
-
                 this.afiliado_id=data['id'];
                 this.apellido_paterno=data['apellido_paterno'];
                 this.apellido_materno=data['apellido_materno'];
@@ -786,12 +812,26 @@ import VTooltip from 'v-tooltip';
                 this.direccion_trabajo=data['direccion_trabajo'];
                 this.modalidad=data['modalidad'];
                 this.fecha_modalidad=data['fecha_modalidad'];
+                this.created_at=data['created_at'];
+                this.observaciones=data['observaciones'];
                 this.codigounico=data['codigounico'];
 
                 this.usuario = data['usuario'];
                 this.password = data['password'];
-                this.idrol = data['idrol'];
-            },            
+                this.obtenerRol();
+            },
+
+            obtenerRol(){
+                let me=this;
+                var url= '/rol/getRol?id='+ this.afiliado_id;
+                axios.get(url).then(function (response) {
+                    //return response.data
+                    me.idrol = response.data
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },   
             ocultarFormulario(){
                 this.listado=1;
                 this.afiliado_id= 0;
@@ -813,6 +853,8 @@ import VTooltip from 'v-tooltip';
                 this.direccion_trabajo='';
                 this.modalidad='';
                 this.fecha_modalidad='';
+                this.observaciones='';
+                this.created_at="";
                 this.codigounico='';
                 this.condicion='';
                 this.estado='';

@@ -59,14 +59,17 @@
                             <td v-text="desde(arrayAfiliado[0].fecha_modalidad) ">&nbsp;</td>
                         </tr>
                         <tr>
+                            <th>Fecha de Ingreso </th>
+                            <td>{{desde(arrayAfiliado[0].created_at)}}</td>
                             <th>Carnet Colegio</th>
                             <td v-text="arrayAfiliado[0].codigounico ">&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <th>Observaciones</th>
+                            <td colspan="3" v-text="arrayAfiliado[0].observaciones">
+                            </td>
                         </tr>
                     </table>
-                    <small> <strong>Creación del registro: </strong> {{ desde(arrayAfiliado[0].created_at) }} </small> <br>
-                    <small> <strong>Ultima modificación del registro: </strong> {{ desde(arrayAfiliado[0].updated_at)}} </small> <br>
                 </div> <br>                 
                 <h4>Datos Academicos</h4>
                 <div class="table-responsive">

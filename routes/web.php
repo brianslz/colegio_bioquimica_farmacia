@@ -74,11 +74,13 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/reporte/gestion', 'AfiliadoController@reporteAfiliadosGestion');
         Route::get('/reporte/deudores', 'AfiliadoController@deudores');
         Route::get('/reporte/nodeudores', 'AfiliadoController@nodeudores');
+        
         Route::get('/reporte/antiguedad25', 'AfiliadoController@antiguedad25');
         Route::get('/reporte/antiguedad50', 'AfiliadoController@antiguedad50');
         
         Route::get('/rol', 'RolController@index');
         Route::get('/rol/selectRol', 'RolController@selectRol');
+        Route::get('/rol/getRol', 'AfiliadoController@getRol');
         
         Route::get('/user', 'UserController@index');
         Route::post('/user/registrar', 'UserController@store');

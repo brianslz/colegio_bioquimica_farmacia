@@ -24,6 +24,7 @@
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarAfiliado(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
                                     <button type="submit" @click="listarAfiliado(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" @click="listarAfiliado(1,'','ci')" class="btn btn-default"><i class="fa fa-close"></i></button> 
                                 </div>
                             </div>
                         </div>
@@ -315,6 +316,8 @@ import VTooltip from 'v-tooltip';
         },
         methods:{
             listarAfiliado (page,buscar,criterio){
+                this.buscar=buscar;
+                this.criterio=criterio;
                 let me=this;
                 var url= '/afiliadoAporte?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 //listamos afiliados segun esta ruta

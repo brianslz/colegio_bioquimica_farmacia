@@ -7,14 +7,14 @@
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            font-size: 0.875rem;
+            font-size: 0.675rem;
             font-weight: normal;
             line-height: 1.5;
             color: #151b1e;           
         }
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: 60%;
         }
 
         th, td {
