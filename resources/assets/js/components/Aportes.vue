@@ -94,7 +94,6 @@
                                 <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
                                     <i class="icon-user"></i> Sin Deudas
                                 </button>
-
                                 <button v-else type="button" class="btn btn-danger btn-sm">
                                     <i class="icon-user"></i> Deudor
                                 </button>

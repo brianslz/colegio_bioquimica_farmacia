@@ -288,8 +288,8 @@
                                                 <option value="TJ-">TJ</option>
                                                 <option value="CH-">CH</option>
                                             </select>
-                                            </div>
                                             <input type="text" class="form-control" v-model="codigounico">
+                                            </div>
                                         <small>Numero de Carnet de Afiliado Colegio de Biquimica y Farmacia</small>
                                     </div>
                                 </div>
