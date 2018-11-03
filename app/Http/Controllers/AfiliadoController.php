@@ -7,13 +7,12 @@ use DB;
 use App\Afiliado;
 use App\Pago;
 use App\User;
-
+use App\SeguimientoEstado;
 
 class AfiliadoController extends Controller
 {
     public function index(Request $request)
     {
-
         if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         $criterio = $request->criterio;
@@ -70,7 +69,7 @@ class AfiliadoController extends Controller
             $afiliado->condicion=1; 
             $afiliado->estado="Activo";
             $afiliado->save();
-
+            //guardamos datos del Usuario
             $user = new User();
             $user->usuario = $request->usuario;
             $user->password = bcrypt( $request->password);
@@ -78,6 +77,15 @@ class AfiliadoController extends Controller
             $user->idrol = $request->idrol;          
             $user->id = $afiliado->id;
             $user->save();
+
+            //guardamos datos del seguimiento de estado 
+            //siempre se registra como activo la primera vez
+            $seguimiento = new SeguimientoEstado();
+            $seguimiento->id_afiliado = $afiliado->id;
+            $seguimiento->tipo_estado = 'Activo';
+            $seguimiento->fecha_inicio = $afiliado->created_at;
+            $seguimiento->fecha_fin = $afiliado->created_at;
+            $seguimiento->save();
 
             DB::commit();
 
@@ -133,22 +141,49 @@ class AfiliadoController extends Controller
     public function deshabilitar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
+
+        $ultimoSeguimiento = new SeguimientoEstado();
+        $ultimoSeguimiento = SeguimientoEstado::where('id_afiliado', $request->id)->latest('id_seg')->first();
+        $ultimoSeguimiento->fecha_fin = $request->fecha_motivo;
+        $ultimoSeguimiento->save();
+
         $afiliado = Afiliado::findOrFail($request->id);
         $afiliado->estado = $request->motivo;
         $afiliado->fecha_modalidad = $request->fecha_motivo;
         $afiliado->condicion = '0';
         $afiliado->save();
+
+        $seguimiento = new SeguimientoEstado();
+        $seguimiento->id_afiliado = $request->id;
+        $seguimiento->tipo_estado = $request->motivo;
+        $seguimiento->fecha_inicio = $request->fecha_motivo;
+        $seguimiento->save();
+
     }
 
     public function habilitar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
+
+
+        $ultimoSeguimiento = new SeguimientoEstado();
+        $ultimoSeguimiento = SeguimientoEstado::where('id_afiliado', $request->id)->latest('id_seg')->first();
+        $ultimoSeguimiento->fecha_fin = $request->fecha_motivo;
+        $ultimoSeguimiento->save();
+        
         $afiliado = Afiliado::findOrFail($request->id);
         $afiliado->estado = 'Activo';
         $afiliado->modalidad = $request->motivo;
         $afiliado->fecha_modalidad = $request->fecha_motivo;
         $afiliado->condicion = '1';
         $afiliado->save();
+
+        $seguimiento = new SeguimientoEstado();
+        $seguimiento->id_afiliado = $request->id;
+        $seguimiento->tipo_estado = $request->motivo;
+        $seguimiento->fecha_inicio = $request->fecha_motivo;
+        $seguimiento->save();
+
     }
 
     public function afiliadoAporte(Request $request)
@@ -205,9 +240,14 @@ class AfiliadoController extends Controller
         ->where('a.id','=', $request->id)
         ->get();
 
+        $seguimientoEstado = DB::table('seguimiento_estado as s')
+        ->where('s.id_afiliado','=', $request->id)
+        ->get();
+
         return [
             'afiliado' => $afiliado,
-            'titulos'=>$titulos
+            'titulos'=>$titulos,
+            'seguimiento'=>$seguimientoEstado
         ];
 
     }

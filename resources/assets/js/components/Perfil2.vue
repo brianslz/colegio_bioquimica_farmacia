@@ -11,11 +11,9 @@
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Usuarios
                     </div>
-
-                            
                     <div class="card-body">
                         <div v-if="arrayAfiliado[0]" class="table-responsive">
-                            <h4>Datos Personales</h4>
+                            <h4> <a href="#"><i class="icon-user" disabled></i></a> Datos Personales</h4>
                             <table class="table table-bordered table-striped">
                                 <tr>
                                     <th>Apellido Paterno</th>
@@ -72,16 +70,20 @@
                                     <td v-text="desde(arrayAfiliado[0].fecha_modalidad) ">&nbsp;</td>
                                 </tr>
                                 <tr>
+                                    <th>Fecha de Ingreso </th>
+                                    <td>{{desde(arrayAfiliado[0].created_at)}}</td>
                                     <th>Carnet Colegio</th>
                                     <td v-text="arrayAfiliado[0].codigounico ">&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <th>Observaciones</th>
+                                    <td colspan="3" v-text="arrayAfiliado[0].observaciones">
+                                    </td>
                                 </tr>
                             </table>
-                            <small> <strong>Creación del registro: </strong> {{ desde(arrayAfiliado[0].created_at) }} </small> <br>
-                            <small> <strong>Ultima modificación del registro: </strong> {{ desde(arrayAfiliado[0].updated_at)}} </small> <br>
-                        </div> <br>                 
-                        <h4>Datos Academicos</h4>
+                        </div>
+                        <br>
+                        <h4><a href="#"><i class="icon-graduation" disabled></i></a> Datos Academicos</h4>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <thead>
@@ -104,6 +106,35 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <br>
+                        <h4><a href="#"><i class="icon-clock" disabled></i></a> Historial de Afiliado</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo de Estado</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Finalización</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="seguimiento in arraySeguimiento" :key="seguimiento.id_seg">
+                                        <!--<td v-text="desde(titulo.fecha_titulo)"></td>-->
+                                        <td v-text="seguimiento.tipo_estado"></td>
+                                        <td v-text="desde(seguimiento.fecha_inicio)"></td>
+                                        <td>
+                                            <template v-if="seguimiento.fecha_fin">
+                                                {{ desde(seguimiento.fecha_fin) }}
+                                            </template>
+                                            <template v-else>
+                                                Actualiad
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <button type="button" @click="cargarPdf()" class="btn btn-success btn-sm">
                             <i class="icon-printer"></i> Imprimir Perfil
                         </button> &nbsp;
@@ -121,6 +152,7 @@ moment.locale('es');
                 afiliado_id:0,
                 arrayAfiliado:[],
                 arrayTitulos:[],
+                arraySeguimiento:[]
             }
         },
         methods:{
@@ -130,6 +162,7 @@ moment.locale('es');
                     axios.get(url).then(function (response) {
                         me.arrayAfiliado=response.data.afiliado;
                         me.arrayTitulos=response.data.titulos;
+                        me.arraySeguimiento = response.data.seguimiento;
                     })
                     .catch(function (error) {
                         console.log(error);

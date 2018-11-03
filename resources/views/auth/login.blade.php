@@ -1,5 +1,4 @@
 @extends('auth.contenido')
-
 @section('login')
 <div class="row justify-content-center">
       <div class="col-md-8">
@@ -8,7 +7,7 @@
           <form class="form-horizontal was-validated" method="POST" action="{{ route('login')}}">
           {{ csrf_field() }}
               <div class="card-body">
-              <h1>Acceder</h1>
+              <h1>Acceder</h1> 
               <p class="text-muted">Control de acceso al sistema</p>
 
               <div class="form-group mb-3{{$errors->has('usuario' ? 'is-invalid' : 'hila')}}">
@@ -26,7 +25,7 @@
                       <option value="TJ">TJ</option>
                       <option value="CH">CH</option>
                     </select>
-                    <input type="text" name="usuario" id="usuario" class="form-control" placeholder="1234">
+                    <input type="text" name="usuario" id="usuario" class="form-control" placeholder="0000">
                 </div>
               </div>
               <div class="form-group mb-4{{$errors->has('password' ? 'is-invalid' : '')}}">
@@ -40,8 +39,8 @@
 
               </div>
               <div class="row">
-                <div  class="col-6">
-                  <button type="submit" class="btn btn-primary px-4">Acceder</button>
+                <div  class="col-12 text-center">
+                  <button type="submit" class="btn btn-primary">Acceder</button>
                 </div>
               </div>
             </div>
@@ -51,8 +50,10 @@
             <div class="card-body text-center">
               <div>
                 <h2>Sistema de Control de Aportes</h2>
-                <p>Sistema de control de aportes, Colegio de Bioquimica y Farmacia.</p>
-                <a href="#" class="btn btn-primary active mt-3">Bienvenido!</a>
+                <img src="img/logo_ps.png" >
+                 <h5>Colegio Departamental de Bioquimica y Farmacia</h5>
+                 <h5>La Paz</h5>
+                <div class="btn btn-primary">Bienvenido!</div>
               </div>
             </div>
           </div>

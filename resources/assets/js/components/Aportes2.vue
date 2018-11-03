@@ -21,6 +21,7 @@
                                 <div class="col-md-offset-2 col-md-9">
                                 <p><strong>Modalidad de ingreso: </strong> {{ arrayAfiliado[0].modalidad }}  &nbsp; <strong>Fecha de ingreso: </strong>{{ desde(arrayAfiliado[0].fecha_modalidad) }}</p>
                                 <p> <strong>Pago hasta: </strong>{{ desde(fecha_ultimo_pago) }} 
+                                 <strong>Monto a Pagar: </strong>{{ desde(fecha_ultimo_pago)*2 }} 
                                     <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
                                         <i class="icon-user"></i> Sin Deudas
                                     </button>

@@ -19,17 +19,17 @@
                     <template v-if="listado==1">
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-6">
+                                <div class="col-md-10">
                                     <div class="input-group">
-                                        <select class="form-control col-md-3" v-model="criterio">
+                                        <select class="form-control col-md-4" v-model="criterio">
                                             <option value="ci">C.I</option>   
                                             <option value="codigounico">Carnet Colegio</option>
                                             <option value="apellido_paterno">Apellido Paterno</option>
                                             <option value="nombres">Nombres</option>
                                         </select>
                                         <input type="text" v-model="buscar" @keyup.enter="listarAfiliado(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                        <button type="submit" @click="listarAfiliado(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button> 
                                         <button type="submit" @click="listarAfiliado(1,'','ci')" class="btn btn-default"><i class="fa fa-close"></i></button> 
+                                        <button type="submit" @click="listarAfiliado(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button> 
                                     </div>
                                 </div>
                             </div>
@@ -380,8 +380,9 @@
                                             </button>
 
                                             <button v-else type="button" class="btn btn-danger btn-sm">
-                                                <i class="icon-user"></i> Deudor
+                                                <i class="icon-user"></i> Deudor 
                                             </button>
+                                            Debe 100 bs
                                         </p>
                                     </div>
                                 </div>
@@ -674,6 +675,7 @@ import VTooltip from 'v-tooltip';
                 }).then(function (response) {
                     me.ocultarFormulario();
                     me.listarAfiliado(1,'','nombres');
+                    //console.log(response);
                 }).catch(function (error) {
                     console.log(error);
                 }); 

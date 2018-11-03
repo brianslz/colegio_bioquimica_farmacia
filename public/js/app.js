@@ -70886,6 +70886,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -71121,6 +71122,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             }).then(function (response) {
                 me.ocultarFormulario();
                 me.listarAfiliado(1, '', 'nombres');
+                //console.log(response);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -73180,6 +73182,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
@@ -73188,7 +73220,8 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
         return {
             afiliado_id: 0,
             arrayAfiliado: [],
-            arrayTitulos: []
+            arrayTitulos: [],
+            arraySeguimiento: []
         };
     },
 
@@ -73199,6 +73232,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             axios.get(url).then(function (response) {
                 me.arrayAfiliado = response.data.afiliado;
                 me.arrayTitulos = response.data.titulos;
+                me.arraySeguimiento = response.data.seguimiento;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -73230,7 +73264,7 @@ var render = function() {
     _c("div", { staticClass: "card-body" }, [
       _vm.arrayAfiliado[0]
         ? _c("div", { staticClass: "table-responsive" }, [
-            _c("h4", [_vm._v("Datos Personales")]),
+            _vm._m(0),
             _vm._v(" "),
             _c("table", { staticClass: "table table-bordered table-striped" }, [
               _c("tr", [
@@ -73505,11 +73539,11 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("h4", [_vm._v("Datos Academicos")]),
+      _vm._m(1),
       _vm._v(" "),
       _c("div", { staticClass: "table-responsive" }, [
         _c("table", { staticClass: "table table-bordered table-striped" }, [
-          _vm._m(0),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "tbody",
@@ -73532,6 +73566,53 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(titulo.ciudad) } })
+              ])
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _c("div", { staticClass: "table-responsive" }, [
+        _c("table", { staticClass: "table table-bordered table-striped" }, [
+          _vm._m(4),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.arraySeguimiento, function(seguimiento) {
+              return _c("tr", { key: seguimiento.id_seg }, [
+                _c("td", {
+                  domProps: { textContent: _vm._s(seguimiento.tipo_estado) }
+                }),
+                _vm._v(" "),
+                _c("td", {
+                  domProps: {
+                    textContent: _vm._s(_vm.desde(seguimiento.fecha_inicio))
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    seguimiento.fecha_fin
+                      ? [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(_vm.desde(seguimiento.fecha_fin)) +
+                              "\n                            "
+                          )
+                        ]
+                      : [
+                          _vm._v(
+                            "\n                                Actualiad\n                            "
+                          )
+                        ]
+                  ],
+                  2
+                )
               ])
             })
           )
@@ -73563,6 +73644,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("h4", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "icon-user", attrs: { disabled: "" } })
+      ]),
+      _vm._v(" Datos Personales")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "icon-graduation", attrs: { disabled: "" } })
+      ]),
+      _vm._v(" Datos Academicos")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Universidad")]),
@@ -73574,6 +73677,31 @@ var staticRenderFns = [
         _c("th", [_vm._v("Fecha")]),
         _vm._v(" "),
         _c("th", [_vm._v("Ciudad")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "icon-clock", attrs: { disabled: "" } })
+      ]),
+      _vm._v(" Historial de Afiliado")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tipo de Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha Inicio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha Finalización")])
       ])
     ])
   }
@@ -73659,7 +73787,7 @@ var render = function() {
             ? [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "form-group row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "col-md-10" }, [
                       _c("div", { staticClass: "input-group" }, [
                         _c(
                           "select",
@@ -73672,7 +73800,7 @@ var render = function() {
                                 expression: "criterio"
                               }
                             ],
-                            staticClass: "form-control col-md-3",
+                            staticClass: "form-control col-md-4",
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -73753,6 +73881,20 @@ var render = function() {
                         _c(
                           "button",
                           {
+                            staticClass: "btn btn-default",
+                            attrs: { type: "submit" },
+                            on: {
+                              click: function($event) {
+                                _vm.listarAfiliado(1, "", "ci")
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-close" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
                             staticClass: "btn btn-primary",
                             attrs: { type: "submit" },
                             on: {
@@ -73765,20 +73907,6 @@ var render = function() {
                             _c("i", { staticClass: "fa fa-search" }),
                             _vm._v(" Buscar")
                           ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-default",
-                            attrs: { type: "submit" },
-                            on: {
-                              click: function($event) {
-                                _vm.listarAfiliado(1, "", "ci")
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-close" })]
                         )
                       ])
                     ])
@@ -75319,10 +75447,13 @@ var render = function() {
                                 [
                                   _c("i", { staticClass: "icon-user" }),
                                   _vm._v(
-                                    " Deudor\n                                    "
+                                    " Deudor \n                                    "
                                   )
                                 ]
-                              )
+                              ),
+                          _vm._v(
+                            "\n                                    Debe 100 bs\n                                "
+                          )
                         ])
                       ])
                     ]),
@@ -75938,6 +76069,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
@@ -76254,7 +76387,7 @@ var render = function() {
             ? [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "form-group row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
+                    _c("div", { staticClass: "col-md-10" }, [
                       _c("div", { staticClass: "input-group" }, [
                         _c(
                           "select",
@@ -76267,7 +76400,7 @@ var render = function() {
                                 expression: "criterio"
                               }
                             ],
-                            staticClass: "form-control col-md-3",
+                            staticClass: "form-control col-md-4",
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -76286,18 +76419,22 @@ var render = function() {
                           },
                           [
                             _c("option", { attrs: { value: "ci" } }, [
-                              _vm._v("C.I.")
+                              _vm._v("C.I")
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "codigounico" } }, [
-                              _vm._v("Carnet Colegio ")
+                              _vm._v("Carnet Colegio")
                             ]),
                             _vm._v(" "),
                             _c(
                               "option",
                               { attrs: { value: "apellido_paterno" } },
                               [_vm._v("Apellido Paterno")]
-                            )
+                            ),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "nombres" } }, [
+                              _vm._v("Nombres")
+                            ])
                           ]
                         ),
                         _vm._v(" "),
@@ -76344,6 +76481,20 @@ var render = function() {
                         _c(
                           "button",
                           {
+                            staticClass: "btn btn-default",
+                            attrs: { type: "submit" },
+                            on: {
+                              click: function($event) {
+                                _vm.listarAfiliado(1, "", "ci")
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-close" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
                             staticClass: "btn btn-primary",
                             attrs: { type: "submit" },
                             on: {
@@ -76356,20 +76507,6 @@ var render = function() {
                             _c("i", { staticClass: "fa fa-search" }),
                             _vm._v(" Buscar")
                           ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-default",
-                            attrs: { type: "submit" },
-                            on: {
-                              click: function($event) {
-                                _vm.listarAfiliado(1, "", "ci")
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-close" })]
                         )
                       ])
                     ])
@@ -76903,13 +77040,23 @@ var render = function() {
                             _vm._v(" "),
                             _vm.calcularDeuda(_vm.fecha_ultimo_pago) > 2
                               ? [
-                                  _c("strong", [_vm._v("Debe: ")]),
+                                  _c("strong", [_vm._v("Meses a Deber: ")]),
                                   _vm._v(
                                     " " +
                                       _vm._s(
                                         _vm.calcularDeuda(_vm.fecha_ultimo_pago)
                                       ) +
-                                      " Meses \n                                "
+                                      " Meses \n                                   "
+                                  ),
+                                  _c("strong", [_vm._v("Costo a Pagar: ")]),
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(
+                                        _vm.calcularDeuda(
+                                          _vm.fecha_ultimo_pago
+                                        ) * 2
+                                      ) +
+                                      " \n                                "
                                   )
                                 ]
                               : _vm._e()
@@ -78370,6 +78517,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -78465,7 +78615,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "form-group row" }, [
-            _c("div", { staticClass: "col-md-6" }, [
+            _c("div", { staticClass: "col-md-10" }, [
               _c("div", { staticClass: "input-group" }, [
                 _c(
                   "select",
@@ -78478,7 +78628,7 @@ var render = function() {
                         expression: "criterio"
                       }
                     ],
-                    staticClass: "form-control col-md-3",
+                    staticClass: "form-control col-md-4",
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -78496,12 +78646,18 @@ var render = function() {
                     }
                   },
                   [
-                    _c("option", { attrs: { value: "nombre" } }, [
-                      _vm._v("Nombre")
+                    _c("option", { attrs: { value: "ci" } }, [_vm._v("C.I")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "codigounico" } }, [
+                      _vm._v("Carnet Colegio")
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "descripcion" } }, [
-                      _vm._v("Descripción")
+                    _c("option", { attrs: { value: "apellido_paterno" } }, [
+                      _vm._v("Apellido Paterno")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "nombres" } }, [
+                      _vm._v("Nombres")
                     ])
                   ]
                 ),
@@ -78526,7 +78682,7 @@ var render = function() {
                       ) {
                         return null
                       }
-                      _vm.listarRol(1, _vm.buscar, _vm.criterio)
+                      _vm.listarAfiliado(1, _vm.buscar, _vm.criterio)
                     },
                     input: function($event) {
                       if ($event.target.composing) {
@@ -78540,11 +78696,25 @@ var render = function() {
                 _c(
                   "button",
                   {
+                    staticClass: "btn btn-default",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function($event) {
+                        _vm.listarAfiliado(1, "", "ci")
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fa fa-close" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
                     staticClass: "btn btn-primary",
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        _vm.listarRol(1, _vm.buscar, _vm.criterio)
+                        _vm.listarAfiliado(1, _vm.buscar, _vm.criterio)
                       }
                     }
                   },
@@ -79463,7 +79633,7 @@ var staticRenderFns = [
             _c("img", {
               staticClass: "rounded mx-auto d-block",
               attrs: {
-                src: "img/logo_colbio.png",
+                src: "img/logo_ps.png",
                 alt: "Colegio de Biquimica y Farmacia"
               }
             }),
@@ -79668,6 +79838,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
@@ -79676,7 +79877,8 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
         return {
             afiliado_id: 0,
             arrayAfiliado: [],
-            arrayTitulos: []
+            arrayTitulos: [],
+            arraySeguimiento: []
         };
     },
 
@@ -79687,6 +79889,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             axios.get(url).then(function (response) {
                 me.arrayAfiliado = response.data.afiliado;
                 me.arrayTitulos = response.data.titulos;
+                me.arraySeguimiento = response.data.seguimiento;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -79724,7 +79927,7 @@ var render = function() {
         _c("div", { staticClass: "card-body" }, [
           _vm.arrayAfiliado[0]
             ? _c("div", { staticClass: "table-responsive" }, [
-                _c("h4", [_vm._v("Datos Personales")]),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "table",
@@ -79983,6 +80186,14 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("tr", [
+                      _c("th", [_vm._v("Fecha de Ingreso ")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(_vm.desde(_vm.arrayAfiliado[0].created_at))
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c("th", [_vm._v("Carnet Colegio")]),
                       _vm._v(" "),
                       _c(
@@ -79995,46 +80206,33 @@ var render = function() {
                           }
                         },
                         [_vm._v(" ")]
-                      ),
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", [_vm._v("Observaciones")]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(" ")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(" ")])
+                      _c("td", {
+                        attrs: { colspan: "3" },
+                        domProps: {
+                          textContent: _vm._s(
+                            _vm.arrayAfiliado[0].observaciones
+                          )
+                        }
+                      })
                     ])
                   ]
-                ),
-                _vm._v(" "),
-                _c("small", [
-                  _c("strong", [_vm._v("Creación del registro: ")]),
-                  _vm._v(
-                    " " +
-                      _vm._s(_vm.desde(_vm.arrayAfiliado[0].created_at)) +
-                      " "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("small", [
-                  _c("strong", [_vm._v("Ultima modificación del registro: ")]),
-                  _vm._v(
-                    " " +
-                      _vm._s(_vm.desde(_vm.arrayAfiliado[0].updated_at)) +
-                      " "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("br")
+                )
               ])
             : _vm._e(),
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
-          _c("h4", [_vm._v("Datos Academicos")]),
+          _vm._m(3),
           _vm._v(" "),
           _c("div", { staticClass: "table-responsive" }, [
             _c("table", { staticClass: "table table-bordered table-striped" }, [
-              _vm._m(2),
+              _vm._m(4),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -80061,6 +80259,53 @@ var render = function() {
                     _c("td", {
                       domProps: { textContent: _vm._s(titulo.ciudad) }
                     })
+                  ])
+                })
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _vm._m(5),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-responsive" }, [
+            _c("table", { staticClass: "table table-bordered table-striped" }, [
+              _vm._m(6),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.arraySeguimiento, function(seguimiento) {
+                  return _c("tr", { key: seguimiento.id_seg }, [
+                    _c("td", {
+                      domProps: { textContent: _vm._s(seguimiento.tipo_estado) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: {
+                        textContent: _vm._s(_vm.desde(seguimiento.fecha_inicio))
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      [
+                        seguimiento.fecha_fin
+                          ? [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(_vm.desde(seguimiento.fecha_fin)) +
+                                  "\n                                    "
+                              )
+                            ]
+                          : [
+                              _vm._v(
+                                "\n                                        Actualiad\n                                    "
+                              )
+                            ]
+                      ],
+                      2
+                    )
                   ])
                 })
               )
@@ -80117,6 +80362,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("h4", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "icon-user", attrs: { disabled: "" } })
+      ]),
+      _vm._v(" Datos Personales")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "icon-graduation", attrs: { disabled: "" } })
+      ]),
+      _vm._v(" Datos Academicos")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Universidad")]),
@@ -80128,6 +80395,31 @@ var staticRenderFns = [
         _c("th", [_vm._v("Fecha")]),
         _vm._v(" "),
         _c("th", [_vm._v("Ciudad")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "icon-clock", attrs: { disabled: "" } })
+      ]),
+      _vm._v(" Historial de Afiliado")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Tipo de Estado")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha Inicio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha Finalización")])
       ])
     ])
   }
@@ -80196,6 +80488,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+//
 //
 //
 //
@@ -80386,6 +80679,11 @@ var render = function() {
                           _c("strong", [_vm._v("Pago hasta: ")]),
                           _vm._v(
                             _vm._s(_vm.desde(_vm.fecha_ultimo_pago)) +
+                              " \n                         "
+                          ),
+                          _c("strong", [_vm._v("Monto a Pagar: ")]),
+                          _vm._v(
+                            _vm._s(_vm.desde(_vm.fecha_ultimo_pago) * 2) +
                               " \n                            "
                           ),
                           _vm.actualDeuda(_vm.fecha_ultimo_pago)
