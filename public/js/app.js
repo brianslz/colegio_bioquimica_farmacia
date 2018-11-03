@@ -76071,6 +76071,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
@@ -76267,11 +76290,10 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
         },
         cargarUltimoPago: function cargarUltimoPago(id) {
             var me = this;
-            var url = '/Aporte/ultimoPago?id=' + id;
+            var url = '/Aporte/ultimoPago?id=' + this.idafiliado;
             //listamos afiliados segun esta ruta
             axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.fecha_ultimo_pago = respuesta.pago.fecha_vencimiento;
+                me.fecha_ultimo_pago = response.data.fecha_vencimiento;
             }).catch(function (error) {
                 //console.log(error);
                 //si el afiliado es nuevo ... 
@@ -76718,9 +76740,11 @@ var render = function() {
                   "div",
                   { staticClass: "card-body" },
                   [
-                    _c("div", { staticClass: "form-group border row" }, [
-                      _c("div", { staticClass: "col-md-offset-2 col-md-9" }, [
-                        _c("p", [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-8" }, [
+                        _c("h5", [_vm._v("Datos de Afiliación")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "border" }, [
                           _c("strong", [_vm._v("Afiliado:")]),
                           _vm._v(
                             " " +
@@ -76730,59 +76754,144 @@ var render = function() {
                               "   " +
                               _vm._s(_vm.nombres) +
                               " "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
+                          ),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
                           _c("strong", [_vm._v("C.I:")]),
                           _vm._v(_vm._s(_vm.ci) + " "),
-                          _c("strong", [_vm._v("   Carnet Colegio ")]),
-                          _vm._v(" " + _vm._s(_vm.codigounico) + "  ")
+                          _c("strong", [_vm._v("   Carnet Colegio: ")]),
+                          _vm._v(" " + _vm._s(_vm.codigounico) + "  "),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("strong", [_vm._v("Modalidad de Ingreso: ")]),
+                          _vm._v(" " + _vm._s(_vm.modalidad) + "  "),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("strong", [_vm._v("Fecha de ingreso: ")]),
+                          _vm._v(
+                            _vm._s(_vm.desde(_vm.fecha_modalidad)) +
+                              "\n                                "
+                          )
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-offset-2 col-md-9" }, [
-                        _c("p", [
-                          _c("strong", [_vm._v("Modalidad de Pago: ")]),
-                          _vm._v(" " + _vm._s(_vm.modalidad) + "    "),
-                          _c("strong", [_vm._v("Fecha de ingreso: ")]),
-                          _vm._v(_vm._s(_vm.desde(_vm.fecha_modalidad)))
-                        ]),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("h5", [_vm._v("Ultimo Aporte")]),
                         _vm._v(" "),
-                        _c("p", [
-                          _c("strong", [_vm._v("Pago hasta: ")]),
-                          _vm._v(
-                            _vm._s(_vm.desde(_vm.fecha_ultimo_pago)) +
-                              " \n                        "
-                          ),
-                          _vm.actualDeuda(_vm.fecha_ultimo_pago)
-                            ? _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-success btn-sm",
-                                  attrs: { type: "button" }
-                                },
-                                [
-                                  _c("i", { staticClass: "icon-user" }),
+                        _c(
+                          "div",
+                          { staticClass: "border" },
+                          [
+                            _c("strong", [_vm._v("Ultimo Pago : ")]),
+                            _vm._v(
+                              _vm._s(_vm.desde(_vm.fecha_ultimo_pago)) + " "
+                            ),
+                            _c("br"),
+                            _c("br"),
+                            _vm._v(" "),
+                            _vm.actualDeuda(_vm.fecha_ultimo_pago)
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "button" }
+                                  },
+                                  [
+                                    _c("i", { staticClass: "icon-user" }),
+                                    _vm._v(
+                                      " Sin Deudas\n                                "
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.actualDeuda(_vm.fecha_ultimo_pago) &&
+                            _vm.actualPromo(_vm.fecha_ultimo_pago)
+                              ? _c(
+                                  "button",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "tooltip",
+                                        rawName: "v-tooltip.bottom",
+                                        value: "Valido Hasta el 31 de Marzo",
+                                        expression:
+                                          "'Valido Hasta el 31 de Marzo'",
+                                        modifiers: { bottom: true }
+                                      }
+                                    ],
+                                    staticClass: "btn btn-primary btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.pagarGestion()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("i", { staticClass: "icon-user" }),
+                                    _vm._v(
+                                      " Pagar por una Gestion\n                                "
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.actualDeuda(_vm.fecha_ultimo_pago)
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" }
+                                  },
+                                  [
+                                    _c("i", { staticClass: "icon-user" }),
+                                    _vm._v(
+                                      " Deudor\n                                "
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("br"),
+                            _c("br"),
+                            _vm._v(" "),
+                            _vm.calcularDeuda(_vm.fecha_ultimo_pago) > 2
+                              ? [
+                                  _c("strong", [_vm._v("Meses a Deber: ")]),
                                   _vm._v(
-                                    " Sin Deudas\n                        "
+                                    " " +
+                                      _vm._s(
+                                        _vm.calcularDeuda(_vm.fecha_ultimo_pago)
+                                      ) +
+                                      " Meses "
+                                  ),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("strong", [_vm._v("Costo a Pagar: ")]),
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(
+                                        _vm.calcularDeuda(
+                                          _vm.fecha_ultimo_pago
+                                        ) * 20
+                                      ) +
+                                      " Bs\n                                "
                                   )
                                 ]
-                              )
-                            : _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" }
-                                },
-                                [
-                                  _c("i", { staticClass: "icon-user" }),
-                                  _vm._v(" Deudor\n                        ")
-                                ]
-                              )
-                        ])
+                              : _vm._e()
+                          ],
+                          2
+                        )
                       ])
                     ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("h5", [_vm._v("Registro de Aportes")]),
                     _vm._v(" "),
                     _vm._l(_vm.arrayAportes, function(aporte) {
                       return _c("div", { key: aporte.id }, [
@@ -76929,9 +77038,11 @@ var render = function() {
                     }
                   },
                   [
-                    _c("div", { staticClass: "form-group border row" }, [
-                      _c("div", { staticClass: "col-md-offset-2 col-md-9" }, [
-                        _c("p", [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-8" }, [
+                        _c("h5", [_vm._v("Datos de Afiliación")]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "border" }, [
                           _c("strong", [_vm._v("Afiliado:")]),
                           _vm._v(
                             " " +
@@ -76941,32 +77052,40 @@ var render = function() {
                               "   " +
                               _vm._s(_vm.nombres) +
                               " "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
+                          ),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
                           _c("strong", [_vm._v("C.I:")]),
                           _vm._v(_vm._s(_vm.ci) + " "),
                           _c("strong", [_vm._v("   Carnet Colegio: ")]),
-                          _vm._v(" " + _vm._s(_vm.codigounico) + "  ")
+                          _vm._v(" " + _vm._s(_vm.codigounico) + "  "),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("strong", [_vm._v("Modalidad de Ingreso: ")]),
+                          _vm._v(" " + _vm._s(_vm.modalidad) + "  "),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("strong", [_vm._v("Fecha de ingreso: ")]),
+                          _vm._v(
+                            _vm._s(_vm.desde(_vm.fecha_modalidad)) +
+                              "\n                                "
+                          )
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-offset-2 col-md-9" }, [
-                        _c("p", [
-                          _c("strong", [_vm._v("Modalidad de Pago: ")]),
-                          _vm._v(" " + _vm._s(_vm.modalidad) + "    "),
-                          _c("strong", [_vm._v("Fecha de ingreso: ")]),
-                          _vm._v(_vm._s(_vm.desde(_vm.fecha_modalidad)))
-                        ]),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("h5", [_vm._v("Ultimo Aporte")]),
                         _vm._v(" "),
                         _c(
-                          "p",
+                          "div",
+                          { staticClass: "border" },
                           [
-                            _c("strong", [_vm._v("Pago hasta: ")]),
+                            _c("strong", [_vm._v("Ultimo Pago : ")]),
                             _vm._v(
-                              _vm._s(_vm.desde(_vm.fecha_ultimo_pago)) +
-                                "\n                            "
+                              _vm._s(_vm.desde(_vm.fecha_ultimo_pago)) + " "
                             ),
                             _c("br"),
                             _c("br"),
@@ -77046,17 +77165,19 @@ var render = function() {
                                       _vm._s(
                                         _vm.calcularDeuda(_vm.fecha_ultimo_pago)
                                       ) +
-                                      " Meses \n                                   "
+                                      " Meses "
                                   ),
+                                  _c("br"),
+                                  _vm._v(" "),
                                   _c("strong", [_vm._v("Costo a Pagar: ")]),
                                   _vm._v(
                                     " " +
                                       _vm._s(
                                         _vm.calcularDeuda(
                                           _vm.fecha_ultimo_pago
-                                        ) * 2
+                                        ) * 20
                                       ) +
-                                      " \n                                "
+                                      " Bs\n                                "
                                   )
                                 ]
                               : _vm._e()
@@ -77065,6 +77186,8 @@ var render = function() {
                         )
                       ])
                     ]),
+                    _vm._v(" "),
+                    _c("br"),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
                       _c(
@@ -80547,6 +80670,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
@@ -80555,7 +80701,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
         return {
             afiliado_id: 0,
             fecha_ultimo_pago: 0,
-            arrayAfiliado: [],
+            afiliado: [],
             arrayAportes: []
         };
     },
@@ -80566,7 +80712,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             var me = this;
             var url = 'aporte/getAportesUsuario?id=' + this.afiliado_id;
             axios.get(url).then(function (response) {
-                me.arrayAfiliado = response.data.afiliado;
+                me.afiliado = response.data.afiliado;
                 me.arrayAportes = response.data.pagos;
             }).catch(function (error) {
                 console.log(error);
@@ -80577,8 +80723,8 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             var url = '/Aporte/ultimoPago?id=' + this.afiliado_id;
             //listamos afiliados segun esta ruta
             axios.get(url).then(function (response) {
-                var respuesta = response.data;
-                me.fecha_ultimo_pago = respuesta.pago.fecha_vencimiento;
+                console.log(response.data.fecha_vencimiento);
+                me.fecha_ultimo_pago = response.data.fecha_vencimiento;
             }).catch(function (error) {
                 //console.log(error);
                 //si el afiliado es nuevo ... 
@@ -80594,6 +80740,13 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
         actualDeuda: function actualDeuda(date) {
             //console.log(moment().isBefore(date)); falso si debe, true No debe 
             return __WEBPACK_IMPORTED_MODULE_0_moment___default()().isBefore(date);
+        },
+        calcularDeuda: function calcularDeuda(date) {
+            // siempre a >b
+            var a = __WEBPACK_IMPORTED_MODULE_0_moment___default()();
+            var b = __WEBPACK_IMPORTED_MODULE_0_moment___default()(date);
+
+            return a.diff(b, 'months') + 1;
         },
         getFechaVencimiento: function getFechaVencimiento(date, n) {
             return __WEBPACK_IMPORTED_MODULE_0_moment___default()(date).add(n, 'months').format("D MMMM YYYY");
@@ -80631,92 +80784,154 @@ var render = function() {
               "div",
               { staticClass: "card-body" },
               [
-                _vm.arrayAfiliado[0]
-                  ? _c("div", { staticClass: "form-group border row" }, [
-                      _c("div", { staticClass: "col-md-offset-2 col-md-9" }, [
-                        _c("p", [
-                          _c("strong", [_vm._v("Afiliado: ")]),
-                          _vm._v(
-                            " " +
-                              _vm._s(_vm.arrayAfiliado[0].apellido_paterno) +
-                              " " +
-                              _vm._s(_vm.arrayAfiliado[0].apellido_materno) +
-                              " " +
-                              _vm._s(_vm.arrayAfiliado[0].nombres) +
-                              " "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _c("strong", [_vm._v("C.I: ")]),
-                          _vm._v(_vm._s(_vm.arrayAfiliado[0].ci) + " "),
-                          _c("strong", [_vm._v("   Carnet Colegio ")]),
-                          _vm._v(
-                            " " +
-                              _vm._s(_vm.arrayAfiliado[0].codigounico) +
-                              "  "
-                          )
-                        ])
-                      ]),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-8" }, [
+                    _c("h5", [_vm._v("Datos de Afiliación")]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "border" }, [
+                      _c("strong", [_vm._v("Afiliado:")]),
+                      _vm._v(
+                        " " +
+                          _vm._s(_vm.afiliado.apellido_paterno) +
+                          " " +
+                          _vm._s(_vm.afiliado.apellido_materno) +
+                          "   " +
+                          _vm._s(_vm.afiliado.nombres) +
+                          " "
+                      ),
+                      _c("br"),
+                      _c("br"),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-offset-2 col-md-9" }, [
-                        _c("p", [
-                          _c("strong", [_vm._v("Modalidad de ingreso: ")]),
-                          _vm._v(
-                            " " +
-                              _vm._s(_vm.arrayAfiliado[0].modalidad) +
-                              "    "
-                          ),
-                          _c("strong", [_vm._v("Fecha de ingreso: ")]),
-                          _vm._v(
-                            _vm._s(
-                              _vm.desde(_vm.arrayAfiliado[0].fecha_modalidad)
-                            )
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [
-                          _c("strong", [_vm._v("Pago hasta: ")]),
-                          _vm._v(
-                            _vm._s(_vm.desde(_vm.fecha_ultimo_pago)) +
-                              " \n                         "
-                          ),
-                          _c("strong", [_vm._v("Monto a Pagar: ")]),
-                          _vm._v(
-                            _vm._s(_vm.desde(_vm.fecha_ultimo_pago) * 2) +
-                              " \n                            "
-                          ),
-                          _vm.actualDeuda(_vm.fecha_ultimo_pago)
-                            ? _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-success btn-sm",
-                                  attrs: { type: "button" }
-                                },
-                                [
-                                  _c("i", { staticClass: "icon-user" }),
-                                  _vm._v(
-                                    " Sin Deudas\n                            "
-                                  )
-                                ]
-                              )
-                            : _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-danger btn-sm",
-                                  attrs: { type: "button" }
-                                },
-                                [
-                                  _c("i", { staticClass: "icon-user" }),
-                                  _vm._v(
-                                    " Deudor\n                            "
-                                  )
-                                ]
-                              )
-                        ])
-                      ])
+                      _c("strong", [_vm._v("C.I:")]),
+                      _vm._v(_vm._s(_vm.afiliado.ci) + " "),
+                      _c("strong", [_vm._v("   Carnet Colegio: ")]),
+                      _vm._v(" " + _vm._s(_vm.afiliado.codigounico) + "  "),
+                      _c("br"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("strong", [_vm._v("Modalidad de Ingreso: ")]),
+                      _vm._v(" " + _vm._s(_vm.afiliado.modalidad) + "  "),
+                      _c("br"),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("strong", [_vm._v("Fecha de ingreso: ")]),
+                      _vm._v(
+                        _vm._s(_vm.desde(_vm.afiliado.fecha_modalidad)) +
+                          "\n                                        "
+                      )
                     ])
-                  : _vm._e(),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4" }, [
+                    _c("h5", [_vm._v("Ultimo Aporte")]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "border" },
+                      [
+                        _c("strong", [_vm._v("Ultimo Pago : ")]),
+                        _vm._v(_vm._s(_vm.desde(_vm.fecha_ultimo_pago)) + " "),
+                        _c("br"),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.actualDeuda(_vm.fecha_ultimo_pago)
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                attrs: { type: "button" }
+                              },
+                              [
+                                _c("i", { staticClass: "icon-user" }),
+                                _vm._v(
+                                  " Sin Deudas\n                                        "
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.actualDeuda(_vm.fecha_ultimo_pago) &&
+                        _vm.actualPromo(_vm.fecha_ultimo_pago)
+                          ? _c(
+                              "button",
+                              {
+                                directives: [
+                                  {
+                                    name: "tooltip",
+                                    rawName: "v-tooltip.bottom",
+                                    value: "Valido Hasta el 31 de Marzo",
+                                    expression: "'Valido Hasta el 31 de Marzo'",
+                                    modifiers: { bottom: true }
+                                  }
+                                ],
+                                staticClass: "btn btn-primary",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.pagarGestion()
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "icon-user" }),
+                                _vm._v(
+                                  " Pagar por una Gestion\n                                        "
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !_vm.actualDeuda(_vm.fecha_ultimo_pago)
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button" }
+                              },
+                              [
+                                _c("i", { staticClass: "icon-user" }),
+                                _vm._v(
+                                  " Deudor\n                                        "
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.calcularDeuda(_vm.fecha_ultimo_pago) > 2
+                          ? [
+                              _c("strong", [_vm._v("Meses a Deber: ")]),
+                              _vm._v(
+                                " " +
+                                  _vm._s(
+                                    _vm.calcularDeuda(_vm.fecha_ultimo_pago)
+                                  ) +
+                                  " Meses "
+                              ),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c("strong", [_vm._v("Costo a Pagar: ")]),
+                              _vm._v(
+                                " " +
+                                  _vm._s(
+                                    _vm.calcularDeuda(_vm.fecha_ultimo_pago) *
+                                      20
+                                  ) +
+                                  " Bs\n                                        "
+                              )
+                            ]
+                          : _vm._e()
+                      ],
+                      2
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("h5", [_vm._v("Registro de Aportes")]),
                 _vm._v(" "),
                 _vm._l(_vm.arrayAportes, function(aporte) {
                   return _c("div", { key: aporte.id }, [
@@ -80809,7 +81024,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fa fa-align-justify" }),
-      _vm._v(" Control de Aportes\n            ")
+      _vm._v(" Control de Aportes\n                    ")
     ])
   }
 ]

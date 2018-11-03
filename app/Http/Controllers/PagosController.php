@@ -28,7 +28,7 @@ class PagosController extends Controller
     {
         $afiliado = DB::table('afiliados as a')
         ->where('a.id','=', $request->id)
-        ->get();
+        ->first();
 
         $pagos =  Pago::where('idafiliado','=',$request->id)
         ->select('*')

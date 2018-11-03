@@ -84,23 +84,43 @@
                 </template>
                 <template v-else>
                     <div class="card-body">
-                        <div class="form-group border row">
-                            <div class="col-md-offset-2 col-md-9">
-                                <p><strong>Afiliado:</strong> {{ apellido_paterno }}&nbsp;{{ apellido_materno }} &nbsp; {{nombres}} </p> 
-                                <p> <strong>C.I:</strong>{{ci}} <strong> &nbsp; Carnet Colegio </strong> {{codigounico}}  </p>
-                            </div>
-                            <div class="col-md-offset-2 col-md-9">
-                            <p><strong>Modalidad de Pago: </strong> {{ modalidad }}  &nbsp; <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}</p>
-                            <p> <strong>Pago hasta: </strong>{{ desde(fecha_ultimo_pago) }} 
-                                <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
-                                    <i class="icon-user"></i> Sin Deudas
-                                </button>
-                                <button v-else type="button" class="btn btn-danger btn-sm">
-                                    <i class="icon-user"></i> Deudor
-                                </button>
-                            </p>
-                            </div>
-                        </div>
+
+                        <div class="row">
+                                    <div class="col-md-8">
+                                        <h5>Datos de Afiliación</h5>
+                                        <div class="border">
+                                            
+                                        <strong>Afiliado:</strong> {{ apellido_paterno }}&nbsp;{{ apellido_materno }} &nbsp; {{nombres}} <br><br>
+                                        <strong>C.I:</strong>{{ci}} <strong> &nbsp; Carnet Colegio: </strong> {{codigounico}}  <br><br>
+                                        <strong>Modalidad de Ingreso: </strong> {{ modalidad }}  <br><br>
+                                        <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>Ultimo Aporte</h5>
+                                        <div class="border">
+                                        <strong>Ultimo Pago : </strong>{{ desde(fecha_ultimo_pago) }} <br><br>
+
+                                        <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
+                                            <i class="icon-user"></i> Sin Deudas
+                                        </button>
+
+                                        <button v-if="actualDeuda(fecha_ultimo_pago) && actualPromo(fecha_ultimo_pago)" @click="pagarGestion()" v-tooltip.bottom="'Valido Hasta el 31 de Marzo'" type="button" class="btn btn-primary btn-sm">
+                                            <i class="icon-user"></i> Pagar por una Gestion
+                                        </button>
+
+                                        <button v-if="!actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-danger btn-sm">
+                                            <i class="icon-user"></i> Deudor
+                                        </button>
+                                        <br><br>
+                                        <template v-if="calcularDeuda(fecha_ultimo_pago)>2">
+                                           <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses <br>
+                                           <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*20}} Bs
+                                        </template>
+                                        </div>
+                                    </div>
+                        </div> <br>
+                        <h5>Registro de Aportes</h5>
                         <div v-for="aporte in arrayAportes" :key="aporte.id" >
                             <table class="table table-bordered table-sm">
                                 <tr>
@@ -135,15 +155,23 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                <div class="form-group border row">
-                                    <div class="col-md-offset-2 col-md-9">
-                                        <p><strong>Afiliado:</strong> {{ apellido_paterno }}&nbsp;{{ apellido_materno }} &nbsp; {{nombres}} </p> 
-                                        <p> <strong>C.I:</strong>{{ci}} <strong> &nbsp; Carnet Colegio: </strong> {{codigounico}}  </p>
+
+                        <div class="row">
+                                    <div class="col-md-8">
+                                        <h5>Datos de Afiliación</h5>
+                                        <div class="border">
+                                            
+                                        <strong>Afiliado:</strong> {{ apellido_paterno }}&nbsp;{{ apellido_materno }} &nbsp; {{nombres}} <br><br>
+                                        <strong>C.I:</strong>{{ci}} <strong> &nbsp; Carnet Colegio: </strong> {{codigounico}}  <br><br>
+                                        <strong>Modalidad de Ingreso: </strong> {{ modalidad }}  <br><br>
+                                        <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}
+                                        </div>
                                     </div>
-                                    <div class="col-md-offset-2 col-md-9">
-                                    <p><strong>Modalidad de Pago: </strong> {{ modalidad }}  &nbsp; <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}</p>
-                                    <p> <strong>Pago hasta: </strong>{{ desde(fecha_ultimo_pago) }}
-                                    <br><br>
+                                    <div class="col-md-4">
+                                        <h5>Ultimo Aporte</h5>
+                                        <div class="border">
+                                        <strong>Ultimo Pago : </strong>{{ desde(fecha_ultimo_pago) }} <br><br>
+
                                         <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
                                             <i class="icon-user"></i> Sin Deudas
                                         </button>
@@ -155,16 +183,14 @@
                                         <button v-if="!actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-danger btn-sm">
                                             <i class="icon-user"></i> Deudor
                                         </button>
-                                    <br><br>
+                                        <br><br>
                                         <template v-if="calcularDeuda(fecha_ultimo_pago)>2">
-                                           <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses 
-                                           <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*2}} 
+                                           <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses <br>
+                                           <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*20}} Bs
                                         </template>
-
-                                    </p>
+                                        </div>
                                     </div>
-                                </div>
-
+                                    </div> <br>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Fecha </label>
                                     <div class="col-md-3">
@@ -199,9 +225,6 @@
                                         <strong> {{ monto =  num_meses * 20 }} Bolivianos </strong>
                                     </div>
                                 </div>
-
-
-
                                 <div v-if="num_meses > 0" class="form-group row">
                                     <label class="col-md-4 form-control-label" for="text-input"> Duracion del pago sera hasta :  </label>
                                     <div class="col-md-3">
@@ -444,20 +467,20 @@ import VTooltip from 'v-tooltip';
                 }
             },
 
+
             cargarUltimoPago(id){
-                let me = this;
-                var url= '/Aporte/ultimoPago?id=' + id ;
-                //listamos afiliados segun esta ruta
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.fecha_ultimo_pago = respuesta.pago.fecha_vencimiento;
-                })
-                .catch(function (error) {
-                    //console.log(error);
-                    //si el afiliado es nuevo ... 
-                    me.fecha_ultimo_pago = me.fecha_modalidad;
-                });
-            },
+            let me = this;
+            var url= '/Aporte/ultimoPago?id=' + this.idafiliado ;
+            //listamos afiliados segun esta ruta
+            axios.get(url).then(function (response) {
+                me.fecha_ultimo_pago = response.data.fecha_vencimiento;
+            })
+            .catch(function (error) {
+                //console.log(error);
+                //si el afiliado es nuevo ... 
+                me.fecha_ultimo_pago = me.fecha_modalidad;
+            });
+        },
 
             mostrarListado(data=[]){
                 //nuevo registro

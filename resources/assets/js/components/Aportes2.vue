@@ -13,25 +13,48 @@
                     </div>
                     <template>
                         <div class="card-body">
-                            <div v-if="arrayAfiliado[0]" class="form-group border row">
-                                <div class="col-md-offset-2 col-md-9">
-                                    <p><strong>Afiliado: </strong> {{ arrayAfiliado[0].apellido_paterno}} {{arrayAfiliado[0].apellido_materno}} {{arrayAfiliado[0].nombres }} </p> 
-                                    <p> <strong>C.I: </strong>{{arrayAfiliado[0].ci}} <strong> &nbsp; Carnet Colegio </strong> {{arrayAfiliado[0].codigounico}}  </p>
-                                </div>
-                                <div class="col-md-offset-2 col-md-9">
-                                <p><strong>Modalidad de ingreso: </strong> {{ arrayAfiliado[0].modalidad }}  &nbsp; <strong>Fecha de ingreso: </strong>{{ desde(arrayAfiliado[0].fecha_modalidad) }}</p>
-                                <p> <strong>Pago hasta: </strong>{{ desde(fecha_ultimo_pago) }} 
-                                 <strong>Monto a Pagar: </strong>{{ desde(fecha_ultimo_pago)*2 }} 
-                                    <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
-                                        <i class="icon-user"></i> Sin Deudas
-                                    </button>
 
-                                    <button v-else type="button" class="btn btn-danger btn-sm">
-                                        <i class="icon-user"></i> Deudor
-                                    </button>
-                                </p>
-                                </div>
-                            </div>
+<!-- primera parte -->
+
+                        <div class="row">
+                                    <div class="col-md-8">
+                                        <h5>Datos de Afiliación</h5>
+                                        <div class="border">
+                                            
+
+                                            <strong>Afiliado:</strong> {{ afiliado.apellido_paterno }}&nbsp;{{ afiliado.apellido_materno }} &nbsp; {{afiliado.nombres}} <br><br>
+                                            <strong>C.I:</strong>{{afiliado.ci}} <strong> &nbsp; Carnet Colegio: </strong> {{afiliado.codigounico}}  <br><br>
+                                            <strong>Modalidad de Ingreso: </strong> {{ afiliado.modalidad }}  <br><br>
+                                            <strong>Fecha de ingreso: </strong>{{ desde(afiliado.fecha_modalidad) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>Ultimo Aporte</h5>
+                                    <div class="border">
+                                        <strong>Ultimo Pago : </strong>{{ desde(fecha_ultimo_pago) }} <br><br>
+
+                                        <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success">
+                                            <i class="icon-user"></i> Sin Deudas
+                                        </button>
+
+                                        <button v-if="actualDeuda(fecha_ultimo_pago) && actualPromo(fecha_ultimo_pago)" @click="pagarGestion()" v-tooltip.bottom="'Valido Hasta el 31 de Marzo'" type="button" class="btn btn-primary">
+                                            <i class="icon-user"></i> Pagar por una Gestion
+                                        </button>
+
+                                        <button v-if="!actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-danger">
+                                            <i class="icon-user"></i> Deudor
+                                        </button>
+                                    <br><br>
+                                        <template v-if="calcularDeuda(fecha_ultimo_pago)>2">
+                                           <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses <br>
+                                           <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*20}} Bs
+                                        </template>
+                                    </div>
+                                    </div>
+                        </div> <br>
+
+<!-- segunda parte -->
+                            <h5>Registro de Aportes</h5>
                             <div v-for="aporte in arrayAportes" :key="aporte.id" >
                                 <table class="table table-bordered table-sm">
                                     <tr>
@@ -65,41 +88,37 @@ moment.locale('es');
             return {
                 afiliado_id:0,
                 fecha_ultimo_pago:0,
-                arrayAfiliado:[],
+                afiliado: [],
                 arrayAportes:[],
             }
         },
 
         methods:{
-
-        listarAportes(){
-            let me=this;
-            var url= 'aporte/getAportesUsuario?id='+this.afiliado_id;
-            axios.get(url).then(function (response) {
-                me.arrayAfiliado=response.data.afiliado;
-                me.arrayAportes=response.data.pagos;
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        },
-        cargarUltimoPago(){
-            let me = this;
-            var url= '/Aporte/ultimoPago?id=' + this.afiliado_id ;
-            //listamos afiliados segun esta ruta
-            axios.get(url).then(function (response) {
-                var respuesta= response.data;
-                me.fecha_ultimo_pago = respuesta.pago.fecha_vencimiento;
-            })
-            .catch(function (error) {
-                //console.log(error);
-                //si el afiliado es nuevo ... 
-                me.fecha_ultimo_pago = me.fecha_modalidad;
-            });
-        },
-
-
-
+            listarAportes(){
+                let me=this;
+                var url= 'aporte/getAportesUsuario?id='+this.afiliado_id;
+                axios.get(url).then(function (response) {
+                    me.afiliado=response.data.afiliado;
+                    me.arrayAportes=response.data.pagos;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            cargarUltimoPago(){
+                let me = this;
+                var url= '/Aporte/ultimoPago?id=' + this.afiliado_id ;
+                //listamos afiliados segun esta ruta
+                axios.get(url).then(function (response) {
+                    console.log (response.data.fecha_vencimiento);
+                    me.fecha_ultimo_pago = response.data.fecha_vencimiento;
+                })
+                .catch(function (error) {
+                    //console.log(error);
+                    //si el afiliado es nuevo ... 
+                    me.fecha_ultimo_pago = me.fecha_modalidad;
+                });
+            },
             reporteAportes(){
                 window.open('http://127.0.0.1:8000/pago/aportesPdf?id='+this.afiliado_id,'_blank');
             },
@@ -111,6 +130,15 @@ moment.locale('es');
             actualDeuda(date){
                 //console.log(moment().isBefore(date)); falso si debe, true No debe 
                 return moment().isBefore(date);
+            },
+
+            calcularDeuda(date){
+                // siempre a >b
+                var a = moment();
+                var b = moment(date);
+                
+                return ( a.diff(b, 'months')+1 );
+
             },
 
 

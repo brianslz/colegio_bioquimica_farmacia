@@ -216,10 +216,12 @@ class AfiliadoController extends Controller
     }
 
     public function ultimoPago(Request $request){
+
         if (!$request->ajax()) return redirect('/');
+
         $pago = Pago::where('idafiliado','=', $request->id)
         ->select('idafiliado','fecha_vencimiento')->orderBy('fecha_vencimiento', 'desc')->first();
-        return ['pago' => $pago];
+        return $pago;
     }
     
     public function verificarCi(Request $request){
