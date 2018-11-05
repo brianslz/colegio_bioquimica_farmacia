@@ -382,7 +382,6 @@
                                             <button v-else type="button" class="btn btn-danger btn-sm">
                                                 <i class="icon-user"></i> Deudor 
                                             </button>
-                                            Debe 100 bs
                                         </p>
                                     </div>
                                 </div>
@@ -400,8 +399,10 @@
                                 </div>
                                 <div v-else  class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input"> Modalidad de Ingreso </label>
-
-                                    <input type="text" class="form-control col-md-3" v-model="modalidad" disabled>
+                                        <select class="form-control col-md-3" v-model="modalidad">
+                                            <option value="NUEVO">NUEVO</option>
+                                            <option value="TRASPASO">TRASPASO</option>
+                                        </select>
 
                                     <label class="col-md-2 form-control-label" for="text-input">En Fecha </label>
                                     <input type="date" class="form-control col-md-3" v-model="fecha_motivo">

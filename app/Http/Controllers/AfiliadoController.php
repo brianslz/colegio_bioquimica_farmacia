@@ -38,9 +38,9 @@ class AfiliadoController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        try{
-            DB::beginTransaction();
+        //if (!$request->ajax()) return redirect('/');
+        //try{
+        //    DB::beginTransaction();
             
             $afiliado = new Afiliado();
             $afiliado->apellido_paterno=$request->apellido_paterno;
@@ -80,18 +80,24 @@ class AfiliadoController extends Controller
 
             //guardamos datos del seguimiento de estado 
             //siempre se registra como activo la primera vez
-            $seguimiento = new SeguimientoEstado();
-            $seguimiento->id_afiliado = $afiliado->id;
-            $seguimiento->tipo_estado = 'Activo';
-            $seguimiento->fecha_inicio = $afiliado->created_at;
-            $seguimiento->fecha_fin = $afiliado->created_at;
-            $seguimiento->save();
 
-            DB::commit();
+            DB::table('seguimiento_estado')->insert(
+                [
 
-        } catch (Exception $e){
-            DB::rollBack();
-        }
+                    'id_afiliado' => $afiliado->id,
+                    'tipo_estado' => 'ACTIVO',
+                    'fecha_inicio' => $afiliado->created_at
+                    
+                ]
+            );
+
+
+            
+        //    DB::commit();
+//
+        //} catch (Exception $e){
+        //    DB::rollBack();
+        //}
     }
 
 
