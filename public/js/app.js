@@ -79695,7 +79695,7 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = null
+var __vue_script__ = __webpack_require__(210)
 /* template */
 var __vue_template__ = __webpack_require__(203)
 /* template functional */
@@ -79743,59 +79743,68 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("main", { staticClass: "main" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("div", { staticClass: "card" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("h2", { staticClass: "text-center" }, [
+            _vm._v("Sistema de Control de Aportes")
+          ]),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "rounded mx-auto d-block",
+            attrs: { src: _vm.logo_src, alt: "Colegio de Biquimica y Farmacia" }
+          }),
+          _vm._v(" "),
+          _c("h3", { staticClass: "text-center" }, [
+            _vm._v("Colegio Departamental de Bioquímica y Farmacia")
+          ]),
+          _vm._v(" "),
+          _c("h3", { staticClass: "text-center" }, [_vm._v('"La Paz"')]),
+          _vm._v(" "),
+          _vm._m(2)
+        ]),
+        _vm._v(" "),
+        _c("small", [_vm._v("Sistema desarollado por: Rodrigo.B. Salazar.")]),
+        _vm._v(" "),
+        _c("small", [_vm._v("Contacto: 78929196")]),
+        _vm._v(" "),
+        _c("small", [_vm._v("Soluciones Informáticas")])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("main", { staticClass: "main" }, [
-      _c("ol", { staticClass: "breadcrumb" }, [
-        _c("li", { staticClass: "breadcrumb-item" }, [
-          _c("a", { attrs: { href: "/" } }, [_vm._v("Inicio")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "container-fluid" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("i", { staticClass: "fa fa-align-justify" }),
-            _vm._v(" Inicio\n            ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("h2", { staticClass: "text-center" }, [
-              _vm._v("Sistema de Control de Aportes")
-            ]),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "rounded mx-auto d-block",
-              attrs: {
-                src: "img/logo_ps.png",
-                alt: "Colegio de Biquimica y Farmacia"
-              }
-            }),
-            _vm._v(" "),
-            _c("h3", { staticClass: "text-center" }, [
-              _vm._v("Colegio Departamental de Bioquímica y Farmacia")
-            ]),
-            _vm._v(" "),
-            _c("h3", { staticClass: "text-center" }, [_vm._v('"La Paz"')]),
-            _vm._v(" "),
-            _c("h5", { staticClass: "text-center" }, [
-              _c("strong", [_vm._v(" Telefono de contacto: ")]),
-              _vm._v(" 2-2423367 ")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("small", [_vm._v("Sistema desarollado por: Rodrigo.B. Salazar.")]),
-          _vm._v(" "),
-          _c("small", [_vm._v("Contacto: 78929196")]),
-          _vm._v(" "),
-          _c("small", [_vm._v("Soluciones Informáticas")])
-        ])
+    return _c("ol", { staticClass: "breadcrumb" }, [
+      _c("li", { staticClass: "breadcrumb-item" }, [
+        _c("a", { attrs: { href: "/" } }, [_vm._v("Inicio")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-align-justify" }),
+      _vm._v(" Inicio\n            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h5", { staticClass: "text-center" }, [
+      _c("strong", [_vm._v(" Telefono de contacto: ")]),
+      _vm._v(" 2-2423367 ")
     ])
   }
 ]
@@ -81052,6 +81061,49 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-a549c9ce", module.exports)
   }
 }
+
+/***/ }),
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            logo_src: 'img/logo_ps.png'
+        };
+    }
+});
 
 /***/ })
 /******/ ]);

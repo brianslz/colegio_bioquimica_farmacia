@@ -50,7 +50,7 @@
             <div class="card-body text-center">
               <div>
                 <h2>Sistema de Control de Aportes</h2>
-                <img src="img/logo_ps.png" >
+                <img src="{{asset('img/logo_ps.png')}}" >
                  <h5>Colegio Departamental de Bioquimica y Farmacia</h5>
                  <h5>La Paz</h5>
                 <div class="btn btn-primary">Bienvenido!</div>
