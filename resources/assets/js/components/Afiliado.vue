@@ -732,9 +732,10 @@ import VTooltip from 'v-tooltip';
                 if(!this.lugar_trabajo) this.errorMostrarMsjAfiliado.push('El Lugar de Trabajo no puede estar Vació');
                 if(!this.direccion_trabajo) this.errorMostrarMsjAfiliado.push('La Dirección de Trabajo no puede estar Vació');
                 if(!this.modalidad) this.errorMostrarMsjAfiliado.push('El Campo Modalidad de Pago no puede estar Vació');
-                if(!this.fecha_modalidad) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
+                if(!this.fecha_modalidad) this.errorMostrarMsjAfiliado.push('La Fecha de Inicio de Pago, no puede estar Vació');
                 if(!this.created_at) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
                 if(!this.codigounico) this.errorMostrarMsjAfiliado.push('Introducior el Carnet Colegio');
+                this.validarCodigoUnico();
                 if (this.errorMostrarMsjAfiliado.length) this.errorAfiliado = 1;
                 return this.errorAfiliado;
             },
@@ -746,7 +747,21 @@ import VTooltip from 'v-tooltip';
                 if (this.errorMostrarMsjAfiliado.length) this.errorAfiliado = 1;
                 return this.errorAfiliado;
             },
+            validarCodigoUnico(){
+                let me=this;
 
+                var url= '/afiliado/validarCodigo?id='+this.codigounico;
+                axios.get(url).then(function (response) {
+                   //console.log(response.data);
+                   if(response.data)
+                    { 
+                        me.errorMostrarMsjAfiliado.push('El Carnet de Colegio ya fue Registrado');
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
             mostrarFormulario(){
                 //nuevo registro
 
@@ -818,7 +833,6 @@ import VTooltip from 'v-tooltip';
                 this.created_at=data['created_at'];
                 this.observaciones=data['observaciones'];
                 this.codigounico=data['codigounico'];
-
                 this.usuario = data['usuario'];
                 this.password = data['password'];
                 this.obtenerRol();

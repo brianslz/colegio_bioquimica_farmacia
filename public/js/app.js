@@ -37114,8 +37114,8 @@ Vue.component('reporte', __webpack_require__(187));
 Vue.component('rol', __webpack_require__(192));
 Vue.component('usuarios', __webpack_require__(197));
 Vue.component('inicio', __webpack_require__(202));
-Vue.component('perfil2', __webpack_require__(204));
-Vue.component('aportes2', __webpack_require__(207));
+Vue.component('perfil2', __webpack_require__(205));
+Vue.component('aportes2', __webpack_require__(208));
 
 var app = new Vue({
   el: '#app',
@@ -71177,9 +71177,10 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             if (!this.lugar_trabajo) this.errorMostrarMsjAfiliado.push('El Lugar de Trabajo no puede estar Vació');
             if (!this.direccion_trabajo) this.errorMostrarMsjAfiliado.push('La Dirección de Trabajo no puede estar Vació');
             if (!this.modalidad) this.errorMostrarMsjAfiliado.push('El Campo Modalidad de Pago no puede estar Vació');
-            if (!this.fecha_modalidad) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
+            if (!this.fecha_modalidad) this.errorMostrarMsjAfiliado.push('La Fecha de Inicio de Pago, no puede estar Vació');
             if (!this.created_at) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
             if (!this.codigounico) this.errorMostrarMsjAfiliado.push('Introducior el Carnet Colegio');
+            this.validarCodigoUnico();
             if (this.errorMostrarMsjAfiliado.length) this.errorAfiliado = 1;
             return this.errorAfiliado;
         },
@@ -71189,6 +71190,19 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             if (!this.fecha_motivo) this.errorMostrarMsjAfiliado.push("Introducir una fecha Valida");
             if (this.errorMostrarMsjAfiliado.length) this.errorAfiliado = 1;
             return this.errorAfiliado;
+        },
+        validarCodigoUnico: function validarCodigoUnico() {
+            var me = this;
+
+            var url = '/afiliado/validarCodigo?id=' + this.codigounico;
+            axios.get(url).then(function (response) {
+                //console.log(response.data);
+                if (response.data) {
+                    me.errorMostrarMsjAfiliado.push('El Carnet de Colegio ya fue Registrado');
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         },
         mostrarFormulario: function mostrarFormulario() {
             //nuevo registro
@@ -71266,7 +71280,6 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
             this.created_at = data['created_at'];
             this.observaciones = data['observaciones'];
             this.codigounico = data['codigounico'];
-
             this.usuario = data['usuario'];
             this.password = data['password'];
             this.obtenerRol();
@@ -79695,9 +79708,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(210)
+var __vue_script__ = __webpack_require__(203)
 /* template */
-var __vue_template__ = __webpack_require__(203)
+var __vue_template__ = __webpack_require__(204)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -79737,6 +79750,49 @@ module.exports = Component.exports
 
 /***/ }),
 /* 203 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            logo_src: 'img/logo_ps.png'
+        };
+    }
+});
+
+/***/ }),
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79818,15 +79874,15 @@ if (false) {
 }
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(205)
+var __vue_script__ = __webpack_require__(206)
 /* template */
-var __vue_template__ = __webpack_require__(206)
+var __vue_template__ = __webpack_require__(207)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -79865,7 +79921,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80058,7 +80114,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
 });
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -80582,15 +80638,15 @@ if (false) {
 }
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(208)
+var __vue_script__ = __webpack_require__(209)
 /* template */
-var __vue_template__ = __webpack_require__(209)
+var __vue_template__ = __webpack_require__(210)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -80629,7 +80685,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80787,7 +80843,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('es');
 });
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81061,49 +81117,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-a549c9ce", module.exports)
   }
 }
-
-/***/ }),
-/* 210 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            logo_src: 'img/logo_ps.png'
-        };
-    }
-});
 
 /***/ })
 /******/ ]);

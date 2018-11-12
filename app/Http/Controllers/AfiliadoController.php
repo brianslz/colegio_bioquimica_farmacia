@@ -235,7 +235,14 @@ class AfiliadoController extends Controller
         $afiliado = Afiliado::where('ci','=', $request->ci)
         ->select('id','nombres')->get();
         return ['afiliado' => $afiliado];
+    }    
+    public function validarCodigo(Request $request){
+        if (!$request->ajax()) return redirect('/');
+
+        return ($afiliado = Afiliado::where('codigounico','=', $request->id)
+        ->select('id','nombres')->first());
     }
+    
     
     
     public function perfil(Request $request){
