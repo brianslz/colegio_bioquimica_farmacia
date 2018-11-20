@@ -11,8 +11,21 @@
                         <i class="fa fa-align-justify"></i> Inicio
                     </div>
                     <div class="card-body">
-                        <h2 class="text-center">Sistema de Control de Aportes</h2>
-                        <img :src="logo_src" alt="Colegio de Biquimica y Farmacia" class="rounded mx-auto d-block">
+                        <div id="carouselExampleSlidesOnly" class="carousel slide col-md-8 offset-md-2" data-ride="carousel">
+                            <div class="carousel-inner" >
+                                <div class="carousel-item active">
+
+                                <img class="d-block w-100" :src="logo_src2" alt="First slide">
+                                </div>
+                                <div class="carousel-item">
+                                <img class="d-block w-60" :src="logo_src" alt="Second slide">
+                                </div>
+                                <div class="carousel-item">
+                                <img class="d-block w-100" :src="logo_src3" alt="Third slide">
+                                </div>
+                            </div>
+                        </div>
+                    
                         <h3 class="text-center">Colegio Departamental de Bioquímica y Farmacia</h3>
                         <h3 class="text-center">"La Paz"</h3>
                         <h5 class="text-center"> <strong> Telefono de contacto: </strong> 2-2423367 </h5>
@@ -25,12 +38,13 @@
             </div>
         </main>
 </template>
-
 <script>
     export default {
         data(){
             return {
             logo_src: 'img/logo_ps.png',
+            logo_src2: 'img/slide1.jpg',
+            logo_src3: 'img/slide2.jpg'
             }
         },       
     }

@@ -2,12 +2,25 @@
 @section('login')
 <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card-group mb-0">
-          <div class="card p-4">
+        <div class="row">
+
+        <div class="card card col-md-6 text-white bg-primary">
+            <div class="card-body text-center">
+              <div>
+                 <h5>Colegio Departamental de Bioquimica y Farmacia</h5>
+                 <h5>La Paz</h5>
+                  <img src="{{asset('img/logo_ps.png')}}" width="150" height="150">
+                  <h5>Sistema de Control de Aportes</h5>
+                  <div class="btn btn-primary">Bienvenido!</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card col-md-6">
           <form class="form-horizontal was-validated" method="POST" action="{{ route('login')}}">
           {{ csrf_field() }}
               <div class="card-body">
-              <h1>Acceder</h1> 
+              <h3>Ingrese a su cuenta</h3> 
               <p class="text-muted">Control de acceso al sistema</p>
 
               <div class="form-group mb-3{{$errors->has('usuario' ? 'is-invalid' : 'hila')}}">
@@ -45,17 +58,6 @@
               </div>
             </div>
           </form>
-          </div>
-          <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
-            <div class="card-body text-center">
-              <div>
-                <h2>Sistema de Control de Aportes</h2>
-                <img src="{{asset('img/logo_ps.png')}}" >
-                 <h5>Colegio Departamental de Bioquimica y Farmacia</h5>
-                 <h5>La Paz</h5>
-                <div class="btn btn-primary">Bienvenido!</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -277,16 +277,16 @@
                                     <div class="form-group">
                                         <label for="">Carnet Colegio</label>
                                         <div class="input-group" v-if="tipoAccion==1">
-                                            <select class="form-control" v-model="codigounico">
-                                                <option value="LP-">LP</option>
-                                                <option value="OR-">OR</option>
-                                                <option value="PT-">PT</option>
-                                                <option value="CB-">CB</option>
-                                                <option value="SC-">SC</option>
-                                                <option value="BN-">BN</option>
-                                                <option value="PA-">PA</option>
-                                                <option value="TJ-">TJ</option>
-                                                <option value="CH-">CH</option>
+                                            <select class="form-control" v-model="codigounico_dep" @change="inserDep()">
+                                                <option value="LP">LP</option>
+                                                <option value="OR">OR</option>
+                                                <option value="PT">PT</option>
+                                                <option value="CB">CB</option>
+                                                <option value="SC">SC</option>
+                                                <option value="BN">BN</option>
+                                                <option value="PA">PA</option>
+                                                <option value="TJ">TJ</option>
+                                                <option value="CH">CH</option>
                                             </select>
                                             <input type="text" class="form-control" v-model="codigounico">
                                             </div>
@@ -483,6 +483,7 @@ import VTooltip from 'v-tooltip';
                 estado: '',              
                 arrayAfiliado : [],
                 listado:1,//para ocultar o mostrar formulario tabla
+                codigounico_dep:'LP',
 
                 usuario : '',
                 password : '',
@@ -554,6 +555,9 @@ import VTooltip from 'v-tooltip';
                 me.pagination.current_page = page;
                 //Envia la petición para visualizar la data de esa página
                 me.listarAfiliado(page,buscar,criterio);
+            },
+            inserDep(){
+                this.codigounico = this.codigounico_dep+'-';
             },
             registrarAfiliado(){
 
@@ -735,6 +739,11 @@ import VTooltip from 'v-tooltip';
                 if(!this.fecha_modalidad) this.errorMostrarMsjAfiliado.push('La Fecha de Inicio de Pago, no puede estar Vació');
                 if(!this.created_at) this.errorMostrarMsjAfiliado.push('La Fecha de Ingreso no puede estar Vació');
                 if(!this.codigounico) this.errorMostrarMsjAfiliado.push('Introducior el Carnet Colegio');
+                if(this.codigounico.charAt(2) != '-') this.errorMostrarMsjAfiliado.push('Verificar Departamento Carnet de Colegio');
+                if(Number(this.codigounico.substr(3)) < 1) this.errorMostrarMsjAfiliado.push('Verificar Numero Carnet de Colegio');
+                if(!this.codigounico) this.errorMostrarMsjAfiliado.push('Introducior el Carnet Colegio');
+                
+
                 this.validarCodigoUnico();
                 if (this.errorMostrarMsjAfiliado.length) this.errorAfiliado = 1;
                 return this.errorAfiliado;
@@ -787,7 +796,7 @@ import VTooltip from 'v-tooltip';
                 this.fecha_modalidad='';
                 this.created_at='';
                 this.observaciones='';
-                this.codigounico='';
+                this.codigounico=this.codigounico_dep+'-';
 
                 this.usuario='';
                 this.password='';

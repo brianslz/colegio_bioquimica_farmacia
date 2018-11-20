@@ -29,6 +29,7 @@
                                     </div>
                                 </div>
                         </div>
+                        <div class="table-responsive">
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
@@ -67,6 +68,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                         <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page > 1">
@@ -113,7 +115,7 @@
                                             <i class="icon-user"></i> Deudor
                                         </button>
                                         <br><br>
-                                        <template v-if="calcularDeuda(fecha_ultimo_pago)>2">
+                                        <template v-if="calcularDeuda(fecha_ultimo_pago)>2 ">
                                            <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses <br>
                                            <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*20}} Bs
                                         </template>
@@ -565,6 +567,7 @@ import VTooltip from 'v-tooltip';
                 var a = moment();
                 var b = moment(date);
                 
+
                 return ( a.diff(b, 'months')+1 );
 
             },
