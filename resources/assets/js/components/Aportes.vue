@@ -88,39 +88,38 @@
                     <div class="card-body">
 
                         <div class="row">
-                                    <div class="col-md-8">
-                                        <h5>Datos de Afiliación</h5>
-                                        <div class="border">
-                                            
-                                        <strong>Afiliado:</strong> {{ apellido_paterno }}&nbsp;{{ apellido_materno }} &nbsp; {{nombres}} <br><br>
-                                        <strong>C.I:</strong>{{ci}} <strong> &nbsp; Carnet Colegio: </strong> {{codigounico}}  <br><br>
-                                        <strong>Modalidad de Ingreso: </strong> {{ modalidad }}  <br><br>
-                                        <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h5>Ultimo Aporte</h5>
-                                        <div class="border">
-                                        <strong>Ultimo Pago : </strong>{{ desde(fecha_ultimo_pago) }} <br><br>
+                            <div class="col-md-8">
+                                <h5>Datos de Afiliación</h5>
+                                <div class="border">                                            
+                                <strong>Afiliado:</strong> {{ apellido_paterno }}&nbsp;{{ apellido_materno }} &nbsp; {{nombres}} <br><br>
+                                <strong>C.I:</strong>{{ci}} <strong> &nbsp; Carnet Colegio: </strong> {{codigounico}}  <br><br>
+                                <strong>Modalidad de Ingreso: </strong> {{ modalidad }}  <br><br>
+                                <strong>Fecha de ingreso: </strong>{{ desde(fecha_modalidad) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Ultimo Aporte</h5>
+                                <div class="border">
+                                <strong>Ultimo Pago : </strong>{{ desde(fecha_ultimo_pago) }} <br><br>
 
-                                        <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
-                                            <i class="icon-user"></i> Sin Deudas
-                                        </button>
+                                <button v-if="actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-success btn-sm">
+                                    <i class="icon-user"></i> Sin Deudas
+                                </button>
 
-                                        <button v-if="actualDeuda(fecha_ultimo_pago) && actualPromo(fecha_ultimo_pago)" @click="pagarGestion()" v-tooltip.bottom="'Valido Hasta el 31 de Marzo'" type="button" class="btn btn-primary btn-sm">
-                                            <i class="icon-user"></i> Pagar por una Gestion
-                                        </button>
+                                <button v-if="actualDeuda(fecha_ultimo_pago) && actualPromo(fecha_ultimo_pago)" @click="pagarGestion()" v-tooltip.bottom="'Valido Hasta el 31 de Marzo'" type="button" class="btn btn-primary btn-sm">
+                                    <i class="icon-user"></i> Pagar por una Gestion
+                                </button>
 
-                                        <button v-if="!actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-danger btn-sm">
-                                            <i class="icon-user"></i> Deudor
-                                        </button>
-                                        <br><br>
-                                        <template v-if="calcularDeuda(fecha_ultimo_pago)>2 ">
-                                           <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses <br>
-                                           <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*20}} Bs
-                                        </template>
-                                        </div>
-                                    </div>
+                                <button v-if="!actualDeuda(fecha_ultimo_pago)" type="button" class="btn btn-danger btn-sm">
+                                    <i class="icon-user"></i> Deudor
+                                </button>
+                                <br><br>
+                                <template v-if="calcularDeuda(fecha_ultimo_pago)>2 ">
+                                    <strong>Meses a Deber: </strong> {{calcularDeuda(fecha_ultimo_pago)}} Meses <br>
+                                    <strong>Costo a Pagar: </strong> {{calcularDeuda(fecha_ultimo_pago)*20}} Bs
+                                </template>
+                                </div>
+                            </div>
                         </div> <br>
                         <h5>Registro de Aportes</h5>
                         <div v-for="aporte in arrayAportes" :key="aporte.id" >
@@ -468,8 +467,6 @@ import VTooltip from 'v-tooltip';
                     }
                 }
             },
-
-
             cargarUltimoPago(id){
             let me = this;
             var url= '/Aporte/ultimoPago?id=' + this.idafiliado ;

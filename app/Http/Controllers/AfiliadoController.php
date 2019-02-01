@@ -227,7 +227,17 @@ class AfiliadoController extends Controller
 
         $pago = Pago::where('idafiliado','=', $request->id)
         ->select('idafiliado','fecha_vencimiento')->orderBy('fecha_vencimiento', 'desc')->first();
+
+        if(empty($pago)){
+            //en caso de vacio hacer otra cosa
+            $pago = Afiliado::where('idafiliado','=', $request->id)
+            ->select('id','fecha_modalidad')->orderBy('fecha_modalidad', 'desc')->first();
+        }
+
+
+
         return $pago;
+
     }
     
     public function verificarCi(Request $request){
