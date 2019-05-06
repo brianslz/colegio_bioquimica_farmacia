@@ -50,6 +50,7 @@ class PagosController extends Controller
         $pago->num_meses = $request->num_meses;
         $pago->fecha_vencimiento = Carbon::createFromFormat('Y-m-d', $request->fecha_ultimo_pago )->addMonth( $request->num_meses );
         $pago->monto = $request->monto;
+        $pago->observaciones = $request->observaciones;
         $aux = $pago;
         $pago->save();
     }
@@ -85,12 +86,14 @@ class PagosController extends Controller
     {
         //if (!$request->ajax()) return redirect('/');
         $pago = Pago::findOrFail($request->id);
-
-        $pago->idafiliado=$request->afiliado_id;
-        $pago->num_meses= $request->num_meses;
-        $pago->monto_total= $request->monto_total;
-
-        $articulo->save();
+        $pago->codigo_verficacion = $request->codigo_verficacion;
+        $pago->fecha_pago = $request->fecha_pago;
+        $pago->num_meses = $request->num_meses;
+        $pago->fecha_vencimiento = Carbon::createFromFormat('Y-m-d', $request->fecha_ultimo_pago )->addMonth( $request->num_meses );
+        $pago->monto = $request->monto;
+        $pago->observaciones = $request->observaciones;
+        $aux = $pago;
+        $pago->save();
     }
 
 

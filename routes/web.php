@@ -56,13 +56,14 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/afiliadoAporte', 'AfiliadoController@afiliadoAporte');
         Route::get('/Aporte/ultimoPago', 'AfiliadoController@ultimoPago');
         Route::post('/aporte/registrar', 'PagosController@store');
+        Route::post('/aporte/actualizar', 'PagosController@update');
         Route::get('/aporte/getAportes', 'PagosController@getAportes');
         Route::get('/aporte/getAportesUsuario', 'PagosController@getAportesUsuario');
         
         
         Route::get('/pagos', 'PagosController@index');
         Route::post('/pago/registrar', 'PagosController@store');
-        Route::put('/pago/actualizar', 'PagosController@update');
+        //Route::put('/pago/actualizar', 'PagosController@update');
         Route::get('/pago/reciboPdf', 'PagosController@recibo')->name('recibo_pdf');
         Route::get('/pago/aportesPdf', 'PagosController@aportesPdf')->name('aportes_pdf');
         

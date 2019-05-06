@@ -337,7 +337,8 @@ class AfiliadoController extends Controller
         return $pdf->download('Deudores.pdf');
     }
 
-    public function nodeudores(Request $request){        
+    public function nodeudores(Request $request){
+
         $ultimoPago = DB::table('pagos')
                    ->select('idafiliado', DB::raw('MAX(fecha_vencimiento) as fv'))
                    ->groupBy('idafiliado');
@@ -348,13 +349,13 @@ class AfiliadoController extends Controller
                 })->whereDate('ultimo_pago.fv','>=' ,'2018-07-24')
                 ->get();
 
-        $cant = DB::table('afiliados')
-                ->joinSub($ultimoPago, 'ultimo_pago', function($join) {
-                    $join->on('afiliados.id', '=', 'ultimo_pago.idafiliado');
-                })->whereDate('ultimo_pago.fv','>=' ,'2018-07-24')
-                ->count();
+            //$cant = DB::table('afiliados')
+            //->joinSub($ultimoPago, 'ultimo_pago', function($join) {
+            //    $join->on('afiliados.id', '=', 'ultimo_pago.idafiliado');
+            //})->whereDate('ultimo_pago.fv','>=' ,'2018-07-24')
+            //->count();
 
-        $pdf = \PDF::loadView('pdf.nodeudores',['afiliados'=>$afiliados,'fecha'=>$request->fecha,'cant'=>$cant ]);
+        $pdf = \PDF::loadView('pdf.nodeudores',['afiliados'=>$afiliados,'fecha'=>$request->fecha ]);
         return $pdf->download('Afiliados_no_deuda.pdf');
     }
 

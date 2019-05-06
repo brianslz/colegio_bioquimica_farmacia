@@ -33,7 +33,7 @@
                                 <th colspan="2">Reporte de Afiliados que Si pagaron  </th>
                             </tr>
                             <tr>
-                                <td>Visualizar los afiliados que realizaron su aporte, hasta una fecha especifica.</td>
+                                <td>Visualizar los afiliados que realizaron su aporte, desde una fecha especifica.</td>
                                 <td>
                                     <button type="button" @click="abrirModal('pagaron')" class="btn btn-danger btn-sm">
                                         <i class="icon-doc"></i> PDF 
@@ -120,11 +120,11 @@
 
                         <div class="modal-footer">
                             <button type="button" @click="cerrarModal()" class="btn btn-secondary">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="informeGestionPdf()">Continuar </button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-success" @click="informeDeudoresPdf()">Continuar </button>
-                            <button type="button" v-if="tipoAccion==3" class="btn btn-success" @click="informeNoDeudoresPdf()">Continuar </button>
-                            <button type="button" v-if="tipoAccion==4" class="btn btn-success" @click="informe25Pdf()">Continuar </button>
-                            <button type="button" v-if="tipoAccion==5" class="btn btn-success" @click="informe50Pdf()">Continuar </button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-success" @click="informeGestionPdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-success" @click="informeDeudoresPdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
+                            <button type="button" v-if="tipoAccion==3" class="btn btn-success" @click="informeNoDeudoresPdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
+                            <button type="button" v-if="tipoAccion==4" class="btn btn-success" @click="informe25Pdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
+                            <button type="button" v-if="tipoAccion==5" class="btn btn-success" @click="informe50Pdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
                         </div>
                     </div>
                     <!-- /.modal-content -->

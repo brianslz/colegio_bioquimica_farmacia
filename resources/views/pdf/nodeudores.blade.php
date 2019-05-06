@@ -35,17 +35,19 @@
     <div>
         <h3>Reporte de Afiliados que estan al día con sus aportes en fecha {{ $fecha }}</h3>
     </div>
-    <strong>Total de Afiliados : {{$cant}} </strong><br>
+    <strong>Total de Afiliados : {{count($afiliados)}} </strong><br>
     <table>
         <thead>
             <tr>
                 <th>#</th>
+                <th>C.I.</th>
                 <th>Paterno</th>
                 <th>Materno</th>
                 <th>Nombres</th>
-                <th>C.I.</th>
+                <!--
                 <th>Tipo de Ingreso</th>
                 <th>Fecha de Ingreso</th>
+                -->
                 <th>Codigo Colegio</th>
                 <th>Vigente hasta</th>
             </tr>
@@ -56,12 +58,14 @@
         
             <tr>
                 <td nowrap> {{$c = $c + 1 }} </td>
+                <td nowrap> {{$a->ci}} </td>
                 <td nowrap> {{$a->apellido_paterno}} </td>
                 <td nowrap> {{$a->apellido_materno }}</td>
                 <td nowrap> {{$a->nombres}} </td>
-                <td nowrap> {{$a->ci}} </td>
+                <!--
                 <td nowrap> {{$a->modalidad}} </td>
                 <td nowrap> {{$a->fecha_modalidad}} </td>
+                -->
                 <td nowrap> {{$a->codigounico}} </td>
                 <td nowrap> {{$a->fv}} </td>
             </tr>
