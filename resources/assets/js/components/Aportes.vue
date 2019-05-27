@@ -202,7 +202,7 @@
             </div>
             <br>
             <h5>Aportes Registrados: {{arrayAportes.length}}</h5>
-            
+
             <div v-for="(aporte, index) in arrayAportes" :key="aporte.id">
               <table class="table table-bordered table-sm">
                 <tr>
@@ -222,28 +222,29 @@
                   <td>{{ desde(aporte.fecha_vencimiento) }}</td>
                 </tr>
                 <tr>
-                    <th>Observaciones</th>
-                    <td colspan="4" v-if="aporte.observaciones">{{aporte.observaciones}}</td>
-                    <td colspan="4" v-if="!aporte.observaciones">Sin Observaciones</td>
-                    <td>
-                      <button
-                        v-if="index===0"
-                        type="button"
-                        @click="abrirModal('afiliado','actualizar',aporte)"
-                        v-tooltip.bottom="'Editar Aporte'"
-                        class="btn btn-warning btn-sm">
-                        <i class="icon-pencil"></i> Editar
-                      </button>
-                      <!--
-                        <button
-                        v-if="index===0"
-                          type="button"
-                          v-tooltip.bottom="'Eliminar Aporte'"
-                          class="btn btn-danger btn-sm">
-                          <i class="icon-trash"></i>
-                        </button>
-                      -->  
-                      </td>
+                  <th>Observaciones</th>
+                  <td colspan="4" v-if="aporte.observaciones">{{aporte.observaciones}}</td>
+                  <td colspan="4" v-if="!aporte.observaciones">Sin Observaciones</td>
+                  <td>
+                    <button
+                      v-if="index===0"
+                      type="button"
+                      @click="abrirModal('afiliado','actualizar',aporte)"
+                      v-tooltip.bottom="'Editar Aporte'"
+                      class="btn btn-warning btn-sm"
+                    >
+                      <i class="icon-pencil"></i> Editar
+                    </button>
+
+                    <button
+                      v-if="index===0"
+                      type="button"
+                      @click="eliminarAporte(aporte)"
+                      v-tooltip.bottom="'Eliminar Aporte'"
+                      class="btn btn-danger btn-sm">
+                      <i class="icon-trash"></i> Eliminar
+                    </button>
+                  </td>
                 </tr>
               </table>
             </div>
@@ -376,12 +377,18 @@
                 <label class="col-md-3 form-control-label" for="text-input">Monto a Pagar</label>
                 <div class="col-md-3">
                   <strong>{{ monto = 200 }} Bolivianos</strong>
-                </div> 
-                <br><br>
+                </div>
+                <br>
+                <br>
 
                 <label class="col-md-3 form-control-label" for="text-input">Observaciones</label>
                 <div class="col-md-9">
-                  <input type="text" v-model="observaciones" class="form-control" placeholder="Introducir observaciones">
+                  <input
+                    type="text"
+                    v-model="observaciones"
+                    class="form-control"
+                    placeholder="Introducir observaciones"
+                  >
                 </div>
               </div>
 
@@ -395,10 +402,16 @@
                   <strong>{{ monto = num_meses * 20 }} Bolivianos</strong>
                 </div>
 
-                <br><br>
+                <br>
+                <br>
                 <label class="col-md-3 form-control-label" for="text-input">Observaciones</label>
                 <div class="col-md-9">
-                  <input type="text" v-model="observaciones" class="form-control" placeholder="Introducir observaciones">
+                  <input
+                    type="text"
+                    v-model="observaciones"
+                    class="form-control"
+                    placeholder="Introducir observaciones"
+                  >
                 </div>
               </div>
 
@@ -465,14 +478,14 @@ export default {
       fecha_ultimo_pago: "",
 
       //datos del aporte
-      id:0, //id aporte
+      id: 0, //id aporte
       codigo_verficacion: "",
       fecha_pago: "",
       num_meses: "",
-      
+
       fecha_vencimiento: "",
       monto: "",
-      observaciones:"",
+      observaciones: "",
 
       arrayAfiliado: [],
       arrayAportes: [],
@@ -564,7 +577,6 @@ export default {
       if (this.validarAfiliado()) {
         return;
       }
-
       let me = this;
       //enviamos 2 parametros (ruta,array)
       axios
@@ -583,8 +595,7 @@ export default {
           //me.cargarPdf();
           me.cerrarModal();
           //me.listarAfiliado(1, "", "");
-          me.cargarUltimoPago(me.idafiliado),
-          me.cargarAportes(me.idafiliado);
+          me.cargarUltimoPago(me.idafiliado), me.cargarAportes(me.idafiliado);
         })
         .catch(function(error) {
           console.log(error);
@@ -592,7 +603,6 @@ export default {
     },
 
     actualizarAporte() {
-
       if (this.validarAfiliado()) {
         return;
       }
@@ -601,7 +611,6 @@ export default {
       //enviamos 2 parametros (ruta,array)
       axios
         .post("/aporte/actualizar", {
-
           idafiliado: this.idafiliado,
           id: this.id,
           modalidad: this.modalidad,
@@ -617,15 +626,54 @@ export default {
           //me.cargarPdf();
           me.cerrarModal();
           //me.listarAfiliado(1, "", "");
-          me.cargarUltimoPago(me.idafiliado),
-          me.cargarAportes(me.idafiliado);
+          me.cargarUltimoPago(me.idafiliado), me.cargarAportes(me.idafiliado);
         })
         .catch(function(error) {
           console.log(error);
         }); //fin axios
     },
+    eliminarAporte(data = []) {
 
-    abrirModal(modelo, accion, data = []) {
+      swal({
+        title: "¿Esta seguro de eliminar este aporte?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar",
+        cancelButtonText: "Cerrar",
+        confirmButtonClass: "btn btn-danger",
+        cancelButtonClass: "btn btn-secondary",
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then(result => {
+        if (result.value) {
+          console.log("okey");
+
+
+      let me = this;
+      axios
+        .post("/aporte/eliminar", {
+          id: data["id"]
+        })
+        .then(function(response) {
+          //console.log(response);
+          me.cargarUltimoPago(me.idafiliado), me.cargarAportes(me.idafiliado);
+        })
+        .catch(function(error) {
+          console.log(error);
+        }); //fin axios
+
+          
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+        }
+      });
+    },
+
+      abrirModal(modelo, accion, data = []) {
       //abrirModal('afiliado','registrar',afiliado)"
       switch (modelo) {
         case "afiliado": {
@@ -635,24 +683,24 @@ export default {
               this.tipoAccion = 1; //para mostrar boton agregar
               //cargamos el afiliado
               this.idafiliado = data["id"];
-              (this.apellido_paterno = data["apellido_paterno"]);
-                (this.apellido_materno = data["apellido_materno"]);
-                (this.nombres = data["nombres"]);
-                (this.ci = data["ci"]);
-                (this.codigounico = data["codigounico"]);
-                (this.modalidad = data["modalidad"]);
-                (this.fecha_modalidad = data["fecha_modalidad"]);
-                //fecha_ultimo_pago  se carga con funcion
-                this.cargarUltimoPago(this.idafiliado);
+              this.apellido_paterno = data["apellido_paterno"];
+              this.apellido_materno = data["apellido_materno"];
+              this.nombres = data["nombres"];
+              this.ci = data["ci"];
+              this.codigounico = data["codigounico"];
+              this.modalidad = data["modalidad"];
+              this.fecha_modalidad = data["fecha_modalidad"];
+              //fecha_ultimo_pago  se carga con funcion
+              this.cargarUltimoPago(this.idafiliado);
               //alistamos los campos del pago
-              (this.codigo_verficacion = "");
-                (this.fecha_pago = "");
-                (this.num_meses = "");
-                (this.fecha_vencimiento = "");
-                (this.monto = "");
-                (this.observaciones="");
-                //NOS QUEDAMOS AQUI
-                /*
+              this.codigo_verficacion = "";
+              this.fecha_pago = "";
+              this.num_meses = "";
+              this.fecha_vencimiento = "";
+              this.monto = "";
+              this.observaciones = "";
+              //NOS QUEDAMOS AQUI
+              /*
                                 IDEAS 
                                 CARGAR EL ULTIMO PAGO
                                 MOSTRAR ESTADO DEL AFILIADO 
@@ -660,38 +708,37 @@ export default {
                                 (CUANTO DEBE) MESES O BS                                
                                 */
 
-                (this.modal = 1);
+              this.modal = 1;
               this.nombre = "";
               this.descripcion = "";
 
-              
               break;
             }
             case "actualizar": {
-            //para cargar los datos al modal
+              //para cargar los datos al modal
 
-            //Duracion del pago sera hasta
-            //getFechaVencimiento(fecha_ultimo_pago,num_meses)
-
+              //Duracion del pago sera hasta
+              //getFechaVencimiento(fecha_ultimo_pago,num_meses)
 
               this.modal = 1;
               this.tituloModal = "Actualizar Aporte";
               this.tipoAccion = 2; //para mostrar boton actualizar
-              (this.id = data["id"]);
-              (this.codigo_verficacion = data["codigo_verficacion"]);
-                (this.fecha_pago = data["fecha_pago"]);
-                (this.num_meses = data["num_meses"]);
+              this.id = data["id"];
+              this.codigo_verficacion = data["codigo_verficacion"];
+              this.fecha_pago = data["fecha_pago"];
+              this.num_meses = data["num_meses"];
 
-                //(this.fecha_vencimiento = data["fecha_vencimiento"]);
-                
-                (this.observaciones=data["observaciones"]);
-                if(this.arrayAportes[this.arrayAportes.length - 1]){
-                  this.fecha_ultimo_pago = this.arrayAportes[this.arrayAportes.length - 1].fecha_vencimiento;
-                }                
-                else{
-                  this.fecha_ultimo_pago = this.fecha_modalidad;
-                }
-                console.log(this.fecha_ultimo_pago);  
+              //(this.fecha_vencimiento = data["fecha_vencimiento"]);
+
+              this.observaciones = data["observaciones"];
+              if (this.arrayAportes[this.arrayAportes.length - 1]) {
+                this.fecha_ultimo_pago = this.arrayAportes[
+                  this.arrayAportes.length - 1
+                ].fecha_vencimiento;
+              } else {
+                this.fecha_ultimo_pago = this.fecha_modalidad;
+              }
+              //console.log(this.fecha_ultimo_pago);
               break;
             }
           }

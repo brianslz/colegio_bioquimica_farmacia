@@ -96,6 +96,10 @@ class PagosController extends Controller
         $pago->save();
     }
 
-
+    public function delete(Request $request)
+    {
+        Pago::destroy($request->id);
+        return $request;
+    }
 
 }

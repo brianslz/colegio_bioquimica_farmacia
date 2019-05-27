@@ -59,6 +59,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::post('/aporte/actualizar', 'PagosController@update');
         Route::get('/aporte/getAportes', 'PagosController@getAportes');
         Route::get('/aporte/getAportesUsuario', 'PagosController@getAportesUsuario');
+        Route::post('/aporte/eliminar', 'PagosController@delete');
         
         
         Route::get('/pagos', 'PagosController@index');
