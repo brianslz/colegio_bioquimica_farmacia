@@ -9,75 +9,59 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Generar Reporte
+                        <i class="fa fa-align-justify"></i> Generar Reporte Afiliados sin deudas
                     </div>
-                    <!--Listado, Tabla de afiliados-->
-                    <template v-if="listado">
-                       
-                    </template>
-                        <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <tr>
-                                <th colspan="2">Inscritos por Gestión</th>
-                            </tr>
-                            <tr>
-                                <td>Visualizarlos afiliados inscritos en una gestión especifica.</td>
-                                <td>
-                                    <button type="button" @click="abrirModal('gestion')" class="btn btn-danger btn-sm">
-                                        <i class="icon-doc"></i> PDF 
-                                    </button> &nbsp;
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th colspan="2">Reporte de Afiliados que Si pagaron  </th>
-                            </tr>
-                            <tr>
-                                <td>Visualizar los afiliados que realizaron su aporte, desde una fecha especifica.</td>
-                                <td>
-                                    <button type="button" @click="abrirModal('pagaron')" class="btn btn-danger btn-sm">
-                                        <i class="icon-doc"></i> PDF 
-                                    </button> &nbsp;
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th colspan="2">Reporte de Deudores </th>
-                            </tr>
-                            <tr>
-                                <td>Visualizar los afiliados que no realizaron su aporte, hasta una fecha especifica.</td>
-                                <td>
-                                    <button type="button" @click="abrirModal('deudores')" class="btn btn-danger btn-sm">
-                                        <i class="icon-doc"></i> PDF 
-                                    </button> &nbsp;
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th colspan="2">Reporte de Antigüedad (25 Años) </th>
-                            </tr>
-                            <tr>
-                                <td>Se genera una lista con los Afiliados que cumplen una antiguedqad de 25 años, hasta una gestión especifica.</td>
-                                <td>
-                                    <button type="button" @click="abrirModal('antiguedad25')" class="btn btn-danger btn-sm">
-                                        <i class="icon-doc"></i> PDF 
-                                    </button> &nbsp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <th colspan="2">Reporte de Antigüedad (50 Años) </th>
-                            </tr>
-                            <tr>
-                                <td>Se genera una lista con los Afiliados que cumplen una antiguedqad de 50 años, hasta una gestión especifica.</td>
-                                <td>
-                                    <button type="button" @click="abrirModal('antiguedad50')" class="btn btn-danger btn-sm">
-                                        <i class="icon-doc"></i> PDF 
-                                    </button> &nbsp;
-                                </td>
-                            </tr>
-                        </table>
-
+                    <div class="card-body">
+                            <div class="row">
+                                <p class="col-md-3">Seleccione Gestión</p>
+                                <select class="col-md-3 form-control" v-model="gestion">
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                                <button type="button"  class="col-md-4 btn btn-primary" @click="listarNoDeudores()">  Generar Reporte </button>
+                               
+                            </div>
                     </div>
+
+                            <div class="table-responsive"  v-if="mostrarReporte">
+                                 <button type="button"  class="btn btn-danger" @click="descargarjspdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> descargar Reporte </button> <br>
+                            <table id="my-table" class="table table-bordered table-striped table-sm">
+                                <thead>
+                                    <tr> 
+                                        <th>Apellido paterno</th>
+                                        <th>Apellido materno</th>
+                                        <th>Nombres</th>
+                                        <th>Ci</th>
+                                        <th>Ultimo Aporte</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="afiliado in arrayAfiliado" :key="afiliado.id">
+                                        <!--mostrar datos-->
+                                        <td v-text="afiliado.apellido_paterno"></td>
+                                        <td v-text="afiliado.apellido_materno"></td>
+                                        <td v-text="afiliado.nombres"></td>
+                                        <td v-text="afiliado.ci"></td>
+                                        <td v-text="afiliado.fecha_vencimiento"></td>
+                                        <!--mostrar si esta activo o desactivado-->
+                                    </tr>                                
+                                </tbody>
+                            </table>
+                            </div><!--fin table responsive-->
+
+
                 </div>
             </div>
 
@@ -125,6 +109,7 @@
                             <button type="button" v-if="tipoAccion==3" class="btn btn-success" @click="informeNoDeudoresPdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
                             <button type="button" v-if="tipoAccion==4" class="btn btn-success" @click="informe25Pdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
                             <button type="button" v-if="tipoAccion==5" class="btn btn-success" @click="informe50Pdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar reporte </button>
+                            
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -137,6 +122,9 @@
 
 <script>
 import moment from 'moment';
+
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 moment.locale('es');
     export default {
         data(){
@@ -145,8 +133,9 @@ moment.locale('es');
                 arrayAfiliado:[],
                 arrayTitulos:[],
                 listado : 1,
-                gestion : 0,
+                gestion : 2020,
                 fecha : '',
+                mostrarReporte : false , 
 
                 gestionActual : '',
                 fechaActual : '',
@@ -158,7 +147,13 @@ moment.locale('es');
                 tipoAccion : '',
             }
         },
-        methods:{
+        methods:{ 
+            descargarjspdf(){
+                var pdf = new jsPDF();
+                pdf.autoTable({html: '#my-table'});
+                pdf.save('Afiliados sin deuda '+this.gestion+'.pdf');
+            },
+
             listarTitulos (id){
                     let me=this;
                     var url= 'afiliado/perfil?id='+id;
@@ -170,6 +165,21 @@ moment.locale('es');
                         console.log(error);
                     });
             },
+
+            listarNoDeudores(){
+                
+                let me=this;
+                var url= 'afiliado/nodeudorespdf?gestion='+this.gestion;
+                axios.get(url).then(function (response) {
+                    //console.log(response.data);
+                    me.arrayAfiliado=response.data;
+                    me.mostrarReporte = true;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+
             abrirModal(accion){
                 switch(accion){
                     case 'gestion':

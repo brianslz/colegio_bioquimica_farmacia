@@ -46,8 +46,8 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/afiliado/perfilPdf', 'AfiliadoController@perfilPdf')->name('perfil_pdf');
         Route::get('/afiliado/verificarCi', 'AfiliadoController@verificarCi');
         Route::get('/afiliado/validarCodigo', 'AfiliadoController@validarCodigo');
+        Route::get('/afiliado/nodeudorespdf', 'AfiliadoController@nodeudorespdf');
 
-        
         Route::post('/afiliado/registrar', 'AfiliadoController@store');
         Route::put('/afiliado/actualizar', 'AfiliadoController@update');
         Route::put('/afiliado/deshabilitar', 'AfiliadoController@deshabilitar');

@@ -401,5 +401,19 @@ class AfiliadoController extends Controller
         $pdf = \PDF::loadView('pdf.gestion',['gestion'=>$gestion,'afiliados'=>$afiliados,'cantNuevos'=>$cantNuevos,'cantTraspaso'=>$cantTraspaso]);
         return $pdf->download('Afiliados_Gestion.pdf');
     }
- 
+
+    public function nodeudorespdf(Request $request){
+        
+        //$someVariable = Input::get("some_variable");
+        $gestion = $request->gestion;
+
+        $resultado = DB::select( DB::raw(
+        "SELECT a.id,a.apellido_paterno,a.apellido_materno,a.nombres,a.ci,p.fecha_vencimiento 
+        FROM pagos as p ,afiliados as a  
+        WHERE year(p.fecha_vencimiento) >= '$gestion' AND a.id = p.idafiliado
+        ORDER BY a.apellido_paterno asc"));
+
+            return $resultado;
+    
+    }
 }
