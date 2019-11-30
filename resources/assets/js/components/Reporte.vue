@@ -9,12 +9,26 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Generar Reporte Afiliados sin deudas
+                        <i class="fa fa-align-justify"></i> Generar Reporte
                     </div>
                     <div class="card-body">
                             <div class="row">
-                                <p class="col-md-3">Seleccione Gestión</p>
-                                <select class="col-md-3 form-control" v-model="gestion">
+
+                                <p class="col-md-2">Tipo de reporte</p>
+                                <select class="col-md-3 form-control" v-model="tipo_reporte" v-on:click="gestion=0 ;mostrarReporte=false">
+
+                                    <option value="tipo_1">Afiliados sin deudas</option>
+                                    <option value="tipo_2">Afiliados con deudas</option>
+                                    <option value="tipo_3">Afiliados con 25 años de antiguedad</option>
+                                    <option value="tipo_4">Afiliados con 50 años de antiguedad</option>
+
+                                </select>
+                                <p class="col-md-2" v-if="tipo_reporte=='tipo_1' || tipo_reporte=='tipo_2'">Fecha</p>
+                                <input type="date" class="form-control col-md-3" v-if="tipo_reporte=='tipo_1' || tipo_reporte=='tipo_2'" v-model="gestion">
+
+                                <p class="col-md-1" v-if="tipo_reporte=='tipo_3' || tipo_reporte=='tipo_4'">Gestion Actual</p>
+
+                                <select class="col-md-3 form-control" v-model="gestion" v-if="tipo_reporte=='tipo_3' || tipo_reporte=='tipo_4'">
                                     <option value="2017">2017</option>
                                     <option value="2018">2018</option>
                                     <option value="2019">2019</option>
@@ -29,32 +43,60 @@
                                     <option value="2028">2028</option>
                                     <option value="2029">2029</option>
                                     <option value="2030">2030</option>
-                                </select>
-                                <button type="button"  class="col-md-4 btn btn-primary" @click="listarNoDeudores()">  Generar Reporte </button>
+                                </select> 
                                
+                            </div>
+                            <br>
+                            <div class="alert alert-info" role="alert" v-if="tipo_reporte && gestion">
+                               <p v-if="tipo_reporte=='tipo_1'">Se generara un reporte con afiliados que <strong>SI pagaron</strong> sus aportes hasta la fecha <strong> {{desde(gestion)}}</strong></p>
+                               <p v-if="tipo_reporte=='tipo_2'">Se generara un reporte con afiliados que <strong>NO pagaron</strong> sus aportes hasta la fecha <strong> {{desde(gestion)}}</strong></p>
+                               <p v-if="tipo_reporte=='tipo_3'">Se generara un reporte con afiliados que tengan <strong> Antiguedad de 25 años </strong> pertenecientes ala gestión  <strong> {{gestion*1 - 25 }}</strong></p>
+                               <p v-if="tipo_reporte=='tipo_4'">Se generara un reporte con afiliados que tengan <strong> Antiguedad de 50 años </strong> pertenecientes ala gestión  <strong> {{gestion*1 - 50 }}</strong></p>
+                            
+                            <button type="button"  class="col-md-2 btn btn-primary" v-if="!tipo_reporte==''" @click="listarNoDeudores()"> Generar Reporte </button>
                             </div>
                     </div>
 
+
                             <div class="table-responsive"  v-if="mostrarReporte">
-                                 <button type="button"  class="btn btn-danger" @click="descargarjspdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> descargar Reporte </button> <br>
+<div class="text-center">
+                                 <button type="button"  class="btn btn-danger" @click="descargarjspdf()"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <br> Descargar Reporte </button> <br>
+                                 <br>
+                                 </div>
                             <table id="my-table" class="table table-bordered table-striped table-sm">
                                 <thead>
-                                    <tr> 
+                                    <tr>
+                               <th  colspan="5" v-if="tipo_reporte=='tipo_1'">Afiliados que <strong>SI pagaron</strong> sus aportes hasta la fecha <strong> {{desde(gestion)}}</strong></th>
+                               <th  colspan="5" v-if="tipo_reporte=='tipo_2'">Afiliados que <strong>NO pagaron</strong> sus aportes hasta la fecha <strong> {{desde(gestion)}}</strong></th>
+                               <th  colspan="5" v-if="tipo_reporte=='tipo_3'">Afiliados que tienen <strong> Antiguedad de 25 años </strong> pertenecientes ala gestión  <strong> {{gestion*1 - 25 }}</strong></th>
+                               <th  colspan="5" v-if="tipo_reporte=='tipo_4'">Afiliados que tienen <strong> Antiguedad de 50 años </strong> pertenecientes ala gestión  <strong> {{gestion*1 - 50 }}</strong></th>
+
+                                    </tr>
+<tr>
+                                        <th colspan="5"> Total de afiliados : {{ arrayAfiliado.length }} </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5"> Fecha de reporte : {{ desde(fechaActual)}} </th>
+                                    </tr>
+                                    <tr>
                                         <th>Apellido paterno</th>
                                         <th>Apellido materno</th>
                                         <th>Nombres</th>
                                         <th>Ci</th>
-                                        <th>Ultimo Aporte</th>
+                                        <th v-if="tipo_reporte=='tipo_1' || tipo_reporte=='tipo_2'">Ultimo Aporte</th>
+                                        <th v-if="tipo_reporte=='tipo_3' || tipo_reporte=='tipo_4'">Fecha de Ingreso</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
                                     <tr v-for="afiliado in arrayAfiliado" :key="afiliado.id">
                                         <!--mostrar datos-->
                                         <td v-text="afiliado.apellido_paterno"></td>
                                         <td v-text="afiliado.apellido_materno"></td>
                                         <td v-text="afiliado.nombres"></td>
                                         <td v-text="afiliado.ci"></td>
-                                        <td v-text="afiliado.fecha_vencimiento"></td>
+                                        <td v-if="tipo_reporte=='tipo_1' || tipo_reporte=='tipo_2'" v-text="desde(afiliado.fecha_vencimiento)"></td>
+                                        <td v-if="tipo_reporte=='tipo_3' || tipo_reporte=='tipo_4'" v-text="desde(afiliado.fecha_modalidad)"></td>
                                         <!--mostrar si esta activo o desactivado-->
                                     </tr>                                
                                 </tbody>
@@ -133,7 +175,8 @@ moment.locale('es');
                 arrayAfiliado:[],
                 arrayTitulos:[],
                 listado : 1,
-                gestion : 2020,
+                tipo_reporte:'',
+                gestion : 0,
                 fecha : '',
                 mostrarReporte : false , 
 
@@ -151,7 +194,7 @@ moment.locale('es');
             descargarjspdf(){
                 var pdf = new jsPDF();
                 pdf.autoTable({html: '#my-table'});
-                pdf.save('Afiliados sin deuda '+this.gestion+'.pdf');
+                pdf.save('Reporte Afiliados'+this.gestion+'.pdf');
             },
 
             listarTitulos (id){
@@ -168,7 +211,7 @@ moment.locale('es');
 
             listarNoDeudores(){
                 
-                let me=this;
+                /*let me=this;
                 var url= 'afiliado/nodeudorespdf?gestion='+this.gestion;
                 axios.get(url).then(function (response) {
                     //console.log(response.data);
@@ -177,7 +220,18 @@ moment.locale('es');
                 })
                 .catch(function (error) {
                     console.log(error);
-                });
+                }); */
+
+                let me=this;
+                var url= 'afiliado/nodeudorespdf?gestion='+this.gestion+'&tipo_reporte='+ this.tipo_reporte;
+                axios.get(url).then(function (response) {
+                    //console.log(response.data);
+                    me.arrayAfiliado=response.data;
+                    me.mostrarReporte = true;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                }); 
             },
 
             abrirModal(accion){

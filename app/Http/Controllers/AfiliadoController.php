@@ -403,17 +403,59 @@ class AfiliadoController extends Controller
     }
 
     public function nodeudorespdf(Request $request){
-        
+        //return $request;
         //$someVariable = Input::get("some_variable");
-        $gestion = $request->gestion;
+$gestion = $request->gestion;
+        $tipo_reporte = $request->tipo_reporte;
+        
+         
+        if ( $tipo_reporte ==='tipo_1') {
+            //sin deudas
 
-        $resultado = DB::select( DB::raw(
-        "SELECT a.id,a.apellido_paterno,a.apellido_materno,a.nombres,a.ci,p.fecha_vencimiento 
-        FROM pagos as p ,afiliados as a  
-        WHERE year(p.fecha_vencimiento) >= '$gestion' AND a.id = p.idafiliado
-        ORDER BY a.apellido_paterno asc"));
-
+            $resultado = DB::select( DB::raw(
+            "SELECT a.id,a.apellido_paterno,a.apellido_materno,a.nombres,a.ci,p.fecha_vencimiento 
+            FROM pagos as p ,afiliados as a  
+            WHERE p.fecha_vencimiento >= '$gestion' AND a.id = p.idafiliado
+            ORDER BY a.apellido_paterno asc"
+            ));
             return $resultado;
-    
+        }
+
+        if ( $tipo_reporte ==='tipo_2') {
+            //con deudas
+            $resultado = DB::select( DB::raw(
+            "SELECT a.id,a.apellido_paterno,a.apellido_materno,a.nombres,a.ci,p.fecha_vencimiento 
+            FROM pagos as p ,afiliados as a  
+            WHERE p.fecha_vencimiento <= '$gestion' AND a.id = p.idafiliado
+            ORDER BY a.apellido_paterno asc"
+            ));
+            return $resultado;
+        }
+        if ( $tipo_reporte ==='tipo_3') {
+            //25 años
+            $gestion2 = $gestion-25;
+            $resultado = DB::select( DB::raw(
+                "SELECT a.id,a.apellido_paterno,a.apellido_materno,a.nombres,a.ci,a.fecha_modalidad
+                FROM afiliados as a  
+                WHERE year(a.fecha_modalidad) = '$gestion2'
+                ORDER BY a.apellido_paterno asc"
+                ));
+                return $resultado;
+
+        }
+
+        if ( $tipo_reporte ==='tipo_4') {
+            //50 años
+            $gestion2 = $gestion-25;
+            $resultado = DB::select( DB::raw(
+                "SELECT a.id,a.apellido_paterno,a.apellido_materno,a.nombres,a.ci,a.fecha_modalidad
+                FROM afiliados as a  
+                WHERE year(a.fecha_modalidad) = '$gestion2'
+                ORDER BY a.apellido_paterno asc"
+                ));
+                return $resultado;
+        }
+
+        return 'sin respuesta';
     }
 }
